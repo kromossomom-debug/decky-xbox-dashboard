@@ -11,6 +11,7 @@ import json
 import logging
 import os
 import re
+import ssl
 import threading
 import time
 import unicodedata
@@ -35,6 +36,32 @@ EDITION_WORDS = re.compile(
 )
 
 log = logging.getLogger("xbox-dashboard.hltb")
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """
+    Decky's bundled Python doesn't know where SteamOS keeps its CA certificates, so a plain
+    urlopen fails every HTTPS request with CERTIFICATE_VERIFY_FAILED. Point it at a bundle.
+    """
+    candidates = []
+    try:
+        import certifi
+
+        candidates.append(certifi.where())
+    except ImportError:
+        pass
+    candidates += [
+        "/etc/ssl/certs/ca-certificates.crt",
+        "/etc/ssl/cert.pem",
+        "/etc/pki/tls/certs/ca-bundle.crt",
+    ]
+    for cafile in candidates:
+        if cafile and os.path.exists(cafile):
+            return ssl.create_default_context(cafile=cafile)
+    return ssl.create_default_context()
+
+
+SSL_CONTEXT = _ssl_context()
 
 
 def normalize(name: str) -> str:
@@ -87,7 +114,7 @@ class HltbClient:
         }
         data = json.dumps(body).encode() if body is not None else None
         req = urllib.request.Request(BASE + path, data=data, headers=headers, method="POST" if body is not None else "GET")
-        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as resp:
+        with urllib.request.urlopen(req, timeout=TIMEOUT_S, context=SSL_CONTEXT) as resp:
             raw = resp.read().decode("utf-8", "replace")
         return json.loads(raw) if raw.strip().startswith(("{", "[")) else raw
 

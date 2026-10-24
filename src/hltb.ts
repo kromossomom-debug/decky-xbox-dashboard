@@ -22,6 +22,11 @@ function lookup(app: App): Promise<HltbTimes | null> {
   if (!p) {
     p = fetchTimes(app.appid, app.display_name).catch(() => null);
     cache.set(app.appid, p);
+    // Don't hold on to a miss for the whole session: it may have been a network hiccup, and the
+    // backend already caches real "not found" answers for a day.
+    p.then((r) => {
+      if (!r) cache.delete(app.appid);
+    });
   }
   return p;
 }
