@@ -149,6 +149,8 @@ npm run build        # outputs dist/index.js
 npm run package      # build + xbox-dashboard.zip
 ```
 
+Every push is built by GitHub Actions. Pushing a tag such as `v0.0.3-alpha` publishes a release with the ZIP attached.
+
 ## ☕ Support the project
 
 If the plugin gave your Deck an Xbox makeover and you'd like to say thanks, buy the author a coffee.
