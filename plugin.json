@@ -1,0 +1,11 @@
+{
+  "name": "Xbox Dashboard",
+  "author": "kromossomo",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": ["theme", "style", "xbox"],
+    "description": "Visual do dashboard do Xbox Series X|S no Modo Jogo: arte do jogo em destaque, blocos arredondados, foco branco e cor de destaque verde.",
+    "image": ""
+  }
+}
