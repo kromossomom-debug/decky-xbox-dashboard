@@ -22,6 +22,16 @@ export interface Settings {
   hideShelves: boolean;
   /** Use a Segoe UI style font. */
   font: boolean;
+  /** Show HowLongToBeat times on the game page and home screen. */
+  hltb: boolean;
+  /** Games pinned to Home, most recent first. */
+  pins: number[];
+  /** Which rows the Xbox home shows below Recent. */
+  rowPinned: boolean;
+  rowInstalled: boolean;
+  rowShortcuts: boolean;
+  /** Id of one of the player's collections to show as an extra row, or "" for none. */
+  rowCollection: string;
 }
 
 export const ACCENTS: { id: string; label: string; color: string }[] = [
@@ -48,6 +58,12 @@ export const DEFAULT_SETTINGS: Settings = {
   guide: true,
   hideShelves: false,
   font: true,
+  hltb: true,
+  pins: [],
+  rowPinned: true,
+  rowInstalled: true,
+  rowShortcuts: true,
+  rowCollection: "",
 };
 
 export function accentColor(id: string): string {

@@ -243,4 +243,16 @@ export const XBOX_CSS = `
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 9; overflow: hidden;
 }
 .xbd-gp-about-meta { margin-top: 1.2vh; font-size: 1.7vh; opacity: 0.8; }
+
+.xbd-gp-pinned { background: var(--a); }
+.xbd-gp-hltb {
+  margin-top: 1.6vh; padding: 1.4vh 1.8vh; max-width: 46vh; border-radius: var(--r);
+  background: rgba(12,12,12,0.62);
+}
+.xbd-gp-hltb-stats { display: flex; align-items: flex-end; gap: 2.6vh; }
+.xbd-gp-hltb-value { font-size: 2.6vh; font-weight: 700; line-height: 1.1; }
+.xbd-gp-hltb-label { font-size: 1.5vh; opacity: 0.75; white-space: nowrap; }
+.xbd-gp-hltb-source { margin-left: auto; font-size: 1.3vh; opacity: 0.5; align-self: flex-start; }
+.xbd-gp-hltb .xbd-gp-progress { margin-top: 1.2vh; }
+.xbd-gp-hltb-note { margin-top: 0.6vh; font-size: 1.5vh; opacity: 0.8; }
 `;

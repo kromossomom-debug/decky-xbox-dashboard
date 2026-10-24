@@ -1,5 +1,5 @@
 import { Focusable } from "@decky/ui";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { MdApps, MdCheckCircle, MdComputer, MdFolder, MdSort, MdSportsEsports, MdStar } from "react-icons/md";
 
 import { FOCUSED_CLASS, GameTile } from "./components";
@@ -24,6 +24,13 @@ interface View {
 }
 
 type Sort = "recent" | "name";
+
+/**
+ * Tiles rendered at first, and added each time the focus gets near the end. Every tile is a Steam
+ * focus node, so drawing a 2,000-game library at once would make the page slow to open.
+ */
+const GRID_PAGE = 60;
+const GRID_PRELOAD = 18;
 
 function SideItem({
   icon,
@@ -66,6 +73,16 @@ export function GamesTab() {
   const [sort, setSort] = useState<Sort>("recent");
   const view = views.find((v) => v.id === viewId) ?? views[0];
   const list = useMemo(() => view.apps().sort(sort === "recent" ? byRecent : byName), [view, sort]);
+  const [limit, setLimit] = useState(GRID_PAGE);
+  useEffect(() => setLimit(GRID_PAGE), [list]);
+  const indexOf = useMemo(() => new Map(list.map((a, i) => [a.appid, i])), [list]);
+  const onTileFocus = useCallback(
+    (app: App) => {
+      const i = indexOf.get(app.appid) ?? 0;
+      setLimit((l) => (i >= l - GRID_PRELOAD ? Math.min(list.length, l + GRID_PAGE) : l));
+    },
+    [indexOf, list.length],
+  );
 
   return (
     <Focusable className="xbd-page xbd-mg-body" flow-children="row">
@@ -88,8 +105,8 @@ export function GamesTab() {
           <div className="xbd-mg-empty">{t.empty}</div>
         ) : (
           <Focusable className="xbd-grid" flow-children="grid" key={`${view.id}-${sort}`}>
-            {list.map((app, i) => (
-              <GameTile key={app.appid} app={app} size="small" preferredFocus={i === 0} />
+            {list.slice(0, limit).map((app, i) => (
+              <GameTile key={app.appid} app={app} size="small" preferredFocus={i === 0} onFocus={onTileFocus} />
             ))}
           </Focusable>
         )}

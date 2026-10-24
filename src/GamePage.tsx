@@ -1,9 +1,20 @@
 import { Focusable, Navigation, useParams } from "@decky/ui";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { FaSteam } from "react-icons/fa";
-import { MdCheckCircle, MdDownload, MdEmojiEvents, MdPlayArrow, MdSportsEsports, MdStore, MdTune } from "react-icons/md";
+import {
+  MdCheckCircle,
+  MdDownload,
+  MdEmojiEvents,
+  MdOutlinePushPin,
+  MdPlayArrow,
+  MdPushPin,
+  MdSportsEsports,
+  MdStore,
+  MdTune,
+} from "react-icons/md";
 
-import { Art, FOCUSED_CLASS, useFocusReveal } from "./components";
+import { Art, FOCUSED_CLASS, pinWithToast, useFocusReveal } from "./components";
+import { HltbTimes, formatDuration, useHltb } from "./hltb";
 import { t } from "./i18n";
 import {
   APP_TYPE_SHORTCUT,
@@ -23,6 +34,7 @@ import {
   resumeRunningApp,
   runningAppId,
 } from "./steam";
+import { useSettings } from "./store";
 import { XBOX_CSS } from "./styles";
 
 function deckBadge(category?: number): { label: string; kind: string } | undefined {
@@ -65,10 +77,44 @@ function ActionCard({
   );
 }
 
+/** HowLongToBeat's three times, plus how far the player's own playtime is into the main story. */
+function HltbPanel({ times, playedMinutes }: { times: HltbTimes; playedMinutes: number }) {
+  const stats = [
+    { label: t.hltbMain, value: times.main },
+    { label: t.hltbPlus, value: times.plus },
+    { label: t.hltbFull, value: times.full },
+  ].filter((s) => s.value > 0);
+  if (!stats.length) return null;
+  const pct = times.main ? Math.round(((playedMinutes * 60) / times.main) * 100) : 0;
+  return (
+    <div className="xbd-gp-hltb">
+      <div className="xbd-gp-hltb-stats">
+        {stats.map((s) => (
+          <div key={s.label} className="xbd-gp-hltb-stat">
+            <div className="xbd-gp-hltb-value">{formatDuration(s.value)}</div>
+            <div className="xbd-gp-hltb-label">{s.label}</div>
+          </div>
+        ))}
+        <div className="xbd-gp-hltb-source">{t.hltbSource}</div>
+      </div>
+      {pct > 0 && (
+        <>
+          <div className="xbd-gp-progress">
+            <div style={{ width: `${Math.min(pct, 100)}%` }} />
+          </div>
+          <div className="xbd-gp-hltb-note">{pct >= 100 ? t.hltbBeyond : t.hltbProgress(pct)}</div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function GameHub({ app }: { app: App }) {
   const root = useRef<HTMLDivElement>(null);
   const [details, setDetails] = useState<GameDetails | undefined>();
   useFocusReveal(root);
+  const hltb = useHltb(app);
+  const pinned = useSettings().pins.includes(app.appid);
 
   useEffect(() => {
     let alive = true;
@@ -117,6 +163,7 @@ function GameHub({ app }: { app: App }) {
             {!!app.metacritic_score && <span className="xbd-gp-badge">Metacritic {app.metacritic_score}</span>}
             {size && <span className="xbd-gp-badge">{t.onDisk(size)}</span>}
           </div>
+          {hltb && <HltbPanel times={hltb} playedMinutes={app.minutes_playtime_forever ?? 0} />}
         </div>
 
         <Focusable className="xbd-gp-actions" flow-children="row">
@@ -130,6 +177,15 @@ function GameHub({ app }: { app: App }) {
           >
             {primary.icon}
             <span>{primary.label}</span>
+          </Focusable>
+          <Focusable
+            className={`xbd-gp-more ${pinned ? "xbd-gp-pinned" : ""}`}
+            focusClassName={FOCUSED_CLASS}
+            noFocusRing
+            onActivate={() => pinWithToast(app)}
+            onOKActionDescription={pinned ? t.unpin : t.pin}
+          >
+            {pinned ? <MdPushPin /> : <MdOutlinePushPin />}
           </Focusable>
           <Focusable
             className="xbd-gp-more"

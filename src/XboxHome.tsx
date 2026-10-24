@@ -8,6 +8,7 @@ import { ActionTile, Art, GameTile, Row } from "./components";
 import { t } from "./i18n";
 import {
   App,
+  appById,
   byRecent,
   favoriteApps,
   heroUrls,
@@ -17,7 +18,10 @@ import {
   playtimeText,
   recentApps,
   ROUTES,
+  userCollections,
 } from "./steam";
+import { useSettings } from "./store";
+import { formatDuration, useHltb } from "./hltb";
 import type { TabId } from "./Shell";
 
 const RECENT_COUNT = 9;
@@ -36,9 +40,14 @@ function Backdrop({ app, dim }: { app?: App; dim: boolean }) {
   );
 }
 
+/** Wait for the focus to settle on a game before asking HowLongToBeat about it. */
+const HLTB_DELAY_MS = 700;
+
 function GameInfo({ app }: { app?: App }) {
+  const hltb = useHltb(app, HLTB_DELAY_MS);
   if (!app) return null;
-  const sub = [lastPlayedText(app), playtimeText(app)].filter(Boolean).join("  ·  ");
+  const toBeat = hltb?.main ? t.hltbToBeat(formatDuration(hltb.main)) : "";
+  const sub = [lastPlayedText(app), playtimeText(app), toBeat].filter(Boolean).join("  ·  ");
   return (
     <div className="xbd-info" key={app.appid}>
       <Art
@@ -51,10 +60,15 @@ function GameInfo({ app }: { app?: App }) {
   );
 }
 
+interface GameRow {
+  title: string;
+  apps: App[];
+}
+
 interface RowsProps {
   recents: App[];
-  pins: App[];
-  installed: App[];
+  rows: GameRow[];
+  shortcuts: boolean;
   goTab: (tab: TabId) => void;
   onTopRow: (app?: App) => void;
   onLowerRow: (el: HTMLElement) => void;
@@ -64,7 +78,7 @@ interface RowsProps {
  * All the tiles. Memoized with stable props, so moving the focus only re-renders the background
  * and the game info, not every tile (each one is a Steam focus node, which is costly to update).
  */
-const HomeRows = memo(function HomeRows({ recents, pins, installed, goTab, onTopRow, onLowerRow }: RowsProps) {
+const HomeRows = memo(function HomeRows({ recents, rows, shortcuts, goTab, onTopRow, onLowerRow }: RowsProps) {
   return (
     <>
       <Row>
@@ -82,43 +96,51 @@ const HomeRows = memo(function HomeRows({ recents, pins, installed, goTab, onTop
         <ActionTile icon={<MdStore />} label={t.tabStore} onFocus={() => onTopRow()} onActivate={() => goTab("store")} />
       </Row>
 
-      {pins.length > 0 && (
-        <Row title={t.rowPinned}>
-          {pins.map((app) => (
-            <GameTile key={app.appid} app={app} size="small" onFocus={(_a, el) => onLowerRow(el)} />
+      {rows.map(
+        (row) =>
+          row.apps.length > 0 && (
+            <Row key={row.title} title={row.title}>
+              {row.apps.map((app) => (
+                <GameTile key={app.appid} app={app} size="small" onFocus={(_a, el) => onLowerRow(el)} />
+              ))}
+            </Row>
+          ),
+      )}
+
+      {shortcuts && (
+        <Row title={t.rowShortcuts}>
+          {[
+            { icon: <IoLibrary />, label: t.tabGames, go: () => goTab("games") },
+            { icon: <FaSteam />, label: t.steamLibrary, go: () => Navigation.Navigate(ROUTES.library) },
+            { icon: <MdStore />, label: t.tabStore, go: () => goTab("store") },
+            { icon: <MdDownload />, label: t.downloads, go: () => Navigation.Navigate(ROUTES.downloads) },
+            { icon: <MdPhotoLibrary />, label: t.media, go: () => Navigation.Navigate(ROUTES.media) },
+            { icon: <MdSearch />, label: t.search, go: () => Navigation.Navigate(ROUTES.search) },
+            { icon: <MdSettings />, label: t.settings, go: () => Navigation.Navigate(ROUTES.settings) },
+          ].map((s) => (
+            <ActionTile key={s.label} icon={s.icon} label={s.label} size="small" onFocus={onLowerRow} onActivate={s.go} />
           ))}
         </Row>
       )}
-
-      {installed.length > 0 && (
-        <Row title={t.rowInstalled}>
-          {installed.map((app) => (
-            <GameTile key={app.appid} app={app} size="small" onFocus={(_a, el) => onLowerRow(el)} />
-          ))}
-        </Row>
-      )}
-
-      <Row title={t.rowShortcuts}>
-        {[
-          { icon: <IoLibrary />, label: t.tabGames, go: () => goTab("games") },
-          { icon: <FaSteam />, label: t.steamLibrary, go: () => Navigation.Navigate(ROUTES.library) },
-          { icon: <MdStore />, label: t.tabStore, go: () => goTab("store") },
-          { icon: <MdDownload />, label: t.downloads, go: () => Navigation.Navigate(ROUTES.downloads) },
-          { icon: <MdPhotoLibrary />, label: t.media, go: () => Navigation.Navigate(ROUTES.media) },
-          { icon: <MdSearch />, label: t.search, go: () => Navigation.Navigate(ROUTES.search) },
-          { icon: <MdSettings />, label: t.settings, go: () => Navigation.Navigate(ROUTES.settings) },
-        ].map((s) => (
-          <ActionTile key={s.label} icon={s.icon} label={s.label} size="small" onFocus={onLowerRow} onActivate={s.go} />
-        ))}
-      </Row>
     </>
   );
 });
 
 export function HomeTab({ goTab }: { goTab: (tab: TabId) => void }) {
+  const settings = useSettings();
   const recents = useMemo(() => recentApps(RECENT_COUNT), []);
-  const pins = useMemo(() => favoriteApps().sort(byRecent).slice(0, ROW_COUNT), []);
-  const installed = useMemo(() => installedApps().sort(byRecent).slice(0, ROW_COUNT), []);
+  const rows = useMemo<GameRow[]>(() => {
+    const list: GameRow[] = [];
+    if (settings.rowPinned) {
+      // Games pinned with X / "Pin to Home"; until there are any, the Steam Favorites stand in.
+      const pinned = settings.pins.map(appById).filter((a): a is App => !!a);
+      list.push({ title: t.rowPinned, apps: (pinned.length ? pinned : favoriteApps().sort(byRecent)).slice(0, ROW_COUNT) });
+    }
+    if (settings.rowInstalled) list.push({ title: t.rowInstalled, apps: installedApps().sort(byRecent).slice(0, ROW_COUNT) });
+    const extra = settings.rowCollection && userCollections().find((c) => c.id === settings.rowCollection);
+    if (extra) list.push({ title: extra.name, apps: extra.apps().sort(byRecent).slice(0, ROW_COUNT) });
+    return list;
+  }, [settings.rowPinned, settings.rowInstalled, settings.rowCollection, settings.pins]);
 
   const [focused, setFocused] = useState<App | undefined>(recents[0]);
   const [backdrop, setBackdrop] = useState<App | undefined>(recents[0]);
@@ -151,8 +173,8 @@ export function HomeTab({ goTab }: { goTab: (tab: TabId) => void }) {
         </div>
         <HomeRows
           recents={recents}
-          pins={pins}
-          installed={installed}
+          rows={rows}
+          shortcuts={settings.rowShortcuts}
           goTab={goTab}
           onTopRow={onTopRow}
           onLowerRow={onLowerRow}

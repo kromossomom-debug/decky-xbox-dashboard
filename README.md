@@ -36,7 +36,7 @@
 
 <p align="center">
   <img src="docs/screenshots/game.png" alt="Game page: full-screen art, Play button, badges, action cards and About panel" width="100%">
-  <br><sub><b>Game page</b> (press <b>Y</b> on any tile): Play, Deck compatibility, achievements and shortcuts</sub>
+  <br><sub><b>Game page</b> (press <b>Y</b> on any tile): Play, pin, Deck compatibility, HowLongToBeat, achievements and shortcuts</sub>
 </p>
 
 <sub>Layout previews at the Steam Deck's resolution (1280×800), shown with Steam in Portuguese.</sub>
@@ -62,6 +62,9 @@
 | 🏠 **Xbox home screen** | Replaces Steam's home. The focused game's art fills the screen, with its logo and “Played today · 42 h played”. The first recent tile is larger, and the row ends with **My games & apps** and **Store**. Below come **Pinned** (your Favorites), **Installed** and **Shortcuts**. Scrolling down dims the art, just like on Xbox. |
 | 🔀 **LB / RB tabs** | **Home · My games & apps · Store · Community · System** across the top. LB and RB switch tabs, **B** goes back to Home. |
 | 🎯 **Game page** | Press **Y** on any tile for an Xbox-style game hub: full-screen art, logo, a big **Play** button (or **Install** / **Resume**), Steam Deck compatibility, Metacritic and size badges, an About panel, and cards for Achievements (with progress), Manage game, Controller, Store page and Steam's own page. |
+| ⏱️ **HowLongToBeat** | Main story, main + extras and completionist times on the game page, with how far your playtime is into the story, and “≈ 20 h to beat” next to the focused game on Home. Looked up only when you look at a game and cached for a week. |
+| 📌 **Pin to Home** | Press **X** on any tile (or the pin button on the game page) to pin or unpin it. Pinned games fill the **Pinned** row; until you pin something, your Steam Favorites stand in. |
+| 🧱 **Your own Home rows** | Turn Pinned, Installed and Shortcuts on or off, and add one of your Steam collections as an extra row. |
 | 📚 **My games & apps** | A square tile grid with a side menu: Games, Apps, Installed, Favorites, Non-Steam and your own collections. Sort by Recent or A–Z. |
 | 🎨 **Xbox colors everywhere** | Steam's blue becomes the accent color and its bluish greys become Xbox's neutral greys, in menus, buttons, toggles and pages, including the ones the plugin doesn't draw. |
 | 🧭 **Guide-style menus** | The Steam menu and Quick Access get a dark panel, an accent stripe and the focused item in white with black text. |
@@ -75,6 +78,7 @@
 |---|---|
 | **A** | Play the game (or open its page if it isn't installed) |
 | **Y** | Open the game page |
+| **X** | Pin to / unpin from Home |
 | **LB / RB** | Previous / next tab |
 | **B** | Back to Home |
 
@@ -95,6 +99,8 @@ Everything lives in the plugin's panel in Quick Access. Your choices are saved t
 | Xbox Guide-style menus | on | Guide-style Steam menu and Quick Access |
 | Clean home screen | off | Hides What's New, Friends and Recommended (on Steam's home) |
 | Segoe-style font | on | Swaps the interface font |
+| Time to beat (HowLongToBeat) | on | Shows HowLongToBeat times on the game page and Home |
+| Home rows | Pinned, Installed, Shortcuts | Which rows Home shows, plus one extra collection |
 
 > **Something looks off?** Turn off **Xbox colors everywhere** or **Xbox home screen**: Steam goes back to normal right away, no restart needed.
 
@@ -104,7 +110,8 @@ Everything lives in the plugin's panel in Quick Access. Your choices are saved t
 - **Its own React screens.** Steam's `/library/home` route is swapped for the plugin's screen with `routerHook.addPatch`, and “My games & apps” gets a route of its own. If the plugin's screen ever crashes, Steam's shows up instead.
 - **Lightweight repaint.** Instead of copying Steam's CSS, the plugin swaps colors directly in Steam's own stylesheets, once per sheet. Turning it off puts the original colors back.
 - **Every Game Mode window.** The theme covers the main window, Quick Access and the Steam menu, and is reapplied if Steam recreates any of them.
-- **Your data stays on the Deck.** Games, collections and images come from Steam's internal stores. Nothing is sent anywhere.
+- **Your data stays on the Deck.** Games, collections and images come from Steam's internal stores. The only outside request is the HowLongToBeat lookup (just the game's name), which you can turn off.
+- **Big libraries stay quick.** “My games & apps” draws tiles in batches as you scroll instead of all at once.
 
 <details>
 <summary><b>Project layout</b></summary>
@@ -123,9 +130,13 @@ src/
 ├── injector.ts      # puts the theme into Game Mode windows
 ├── classes.ts       # finds Steam's current CSS class names
 ├── settings.ts      # options and defaults
+├── store.ts         # live settings, pins
+├── hltb.ts          # HowLongToBeat on the frontend
 ├── i18n.ts          # English and Portuguese text
 └── styles.ts        # CSS for the plugin's screens
-main.py              # saves settings
+main.py              # saves settings, HowLongToBeat lookups
+py_modules/
+└── hltb_client.py   # HowLongToBeat search with a week-long cache
 ```
 
 </details>
@@ -135,6 +146,7 @@ main.py              # saves settings
 ```bash
 npm install
 npm run build        # outputs dist/index.js
+npm run package      # build + xbox-dashboard.zip
 ```
 
 ## ☕ Support the project

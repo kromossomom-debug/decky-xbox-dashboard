@@ -1,7 +1,9 @@
+import { toaster } from "@decky/api";
 import { Focusable, NavEntryPositionPreferences } from "@decky/ui";
 import { Component, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 
 import { t } from "./i18n";
+import { isPinned, togglePin } from "./store";
 import { APP_TYPE_SHORTCUT, App, heroUrls, launch, openDetails, portraitUrls, runningAppId } from "./steam";
 
 export const FOCUSED_CLASS = "xbd-focused";
@@ -71,6 +73,8 @@ interface TileProps {
   onFocus?: (el: HTMLElement) => void;
   onActivate: () => void;
   onOptions?: () => void;
+  onSecondary?: () => void;
+  secondaryLabel?: string;
   okLabel?: string;
   children: ReactNode;
   badge?: ReactNode;
@@ -97,12 +101,20 @@ export function Tile(p: TileProps) {
       onOKActionDescription={p.okLabel}
       onOptionsButton={p.onOptions}
       onOptionsActionDescription={p.onOptions ? t.details : undefined}
+      onSecondaryButton={p.onSecondary}
+      onSecondaryActionDescription={p.secondaryLabel}
     >
       <div className="xbd-tile-art">{p.children}</div>
       {p.badge}
       <div className="xbd-tile-name">{p.label}</div>
     </Focusable>
   );
+}
+
+/** X on a tile (or the pin button on the game page): pin or unpin it, with a toast saying which. */
+export function pinWithToast(app: App) {
+  const pinned = togglePin(app.appid);
+  toaster.toast({ title: pinned ? t.pinnedToast : t.unpinnedToast, body: app.display_name });
 }
 
 export function GameTile({
@@ -128,6 +140,8 @@ export function GameTile({
       onFocus={(el) => onFocus?.(app, el)}
       onActivate={() => launch(app)}
       onOptions={() => openDetails(app)}
+      onSecondary={() => pinWithToast(app)}
+      secondaryLabel={isPinned(app.appid) ? t.unpin : t.pin}
       okLabel={running ? t.resume : playable ? t.play : t.open}
       className={playable ? "" : "xbd-not-installed"}
       badge={running ? <div className="xbd-badge">{t.running}</div> : undefined}

@@ -1,4 +1,4 @@
-import { callable, definePlugin, routerHook } from "@decky/api";
+import { definePlugin, routerHook } from "@decky/api";
 import {
   ButtonItem,
   DropdownItem,
@@ -9,27 +9,23 @@ import {
   ToggleField,
   staticClasses,
 } from "@decky/ui";
-import { useState } from "react";
 import { FaCoffee, FaXbox } from "react-icons/fa";
 
 import { resolveClasses, ResolvedClasses } from "./classes";
 import { Fallback } from "./components";
 import { t } from "./i18n";
 import { applyCss, removeCss } from "./injector";
-import { ACCENTS, BackgroundMode, accentColor, DEFAULT_SETTINGS, FocusStyle, Settings, withDefaults } from "./settings";
+import { ACCENTS, BackgroundMode, accentColor, DEFAULT_SETTINGS, FocusStyle } from "./settings";
+import { getSettings, initSettings, subscribe, updateSettings, useSettings } from "./store";
 import { GamePage } from "./GamePage";
-import { GAME_ROUTE, MY_GAMES_ROUTE, openDonate } from "./steam";
+import { GAME_ROUTE, MY_GAMES_ROUTE, openDonate, userCollections } from "./steam";
 import { buildCss } from "./theme";
 import { XboxShell } from "./Shell";
-
-const getSettings = callable<[], Partial<Settings>>("get_settings");
-const setSettings = callable<[settings: Settings], boolean>("set_settings");
 
 /** Some Steam class modules load lazily (e.g. home shelves), so keep looking for a while after start. */
 const RESOLVE_RETRY_MS = 5000;
 const RESOLVE_RETRY_MAX = 24;
 
-let settings: Settings = DEFAULT_SETTINGS;
 let classes: ResolvedClasses = resolveClasses();
 let retryTimer: number | undefined;
 let unloaded = false;
@@ -41,6 +37,7 @@ let homePatch: RoutePatch | undefined;
 
 /** Swaps Steam's home for the Xbox one, or puts Steam's back, to match the settings. */
 function syncHomePatch() {
+  const settings = getSettings();
   const want = !unloaded && settings.enabled && settings.xboxHome;
   if (want && !homePatch) {
     homePatch = routerHook.addPatch(HOME_ROUTE, (props) => ({
@@ -62,6 +59,7 @@ function syncHomePatch() {
 function render() {
   syncHomePatch();
   if (unloaded) return;
+  const settings = getSettings();
   if (settings.enabled) applyCss(buildCss(settings, classes.sel), settings.palette ? accentColor(settings.accent) : null);
   else removeCss();
 }
@@ -82,18 +80,9 @@ function startClassRetry() {
   }, RESOLVE_RETRY_MS);
 }
 
-function update(patch: Partial<Settings>) {
-  settings = { ...settings, ...patch };
-  render();
-  setSettings(settings).catch((e) => console.error("[xbox-dashboard] save failed", e));
-}
-
 function Content() {
-  const [st, setSt] = useState<Settings>(settings);
-  const change = (patch: Partial<Settings>) => {
-    update(patch);
-    setSt(settings);
-  };
+  const st = useSettings();
+  const change = updateSettings;
 
   return (
     <>
@@ -118,11 +107,41 @@ function Content() {
           />
         </PanelSectionRow>
         <PanelSectionRow>
+          <ToggleField
+            label={t.hltbLabel}
+            description={t.hltbDesc}
+            checked={st.hltb}
+            onChange={(hltb) => change({ hltb })}
+          />
+        </PanelSectionRow>
+        <PanelSectionRow>
           <ButtonItem layout="below" onClick={() => Navigation.Navigate(MY_GAMES_ROUTE)}>
             {t.openMyGames}
           </ButtonItem>
         </PanelSectionRow>
       </PanelSection>
+
+      {st.xboxHome && (
+        <PanelSection title={t.homeRowsSection}>
+          <PanelSectionRow>
+            <ToggleField label={t.rowPinned} checked={st.rowPinned} onChange={(rowPinned) => change({ rowPinned })} />
+          </PanelSectionRow>
+          <PanelSectionRow>
+            <ToggleField label={t.rowInstalled} checked={st.rowInstalled} onChange={(rowInstalled) => change({ rowInstalled })} />
+          </PanelSectionRow>
+          <PanelSectionRow>
+            <ToggleField label={t.rowShortcuts} checked={st.rowShortcuts} onChange={(rowShortcuts) => change({ rowShortcuts })} />
+          </PanelSectionRow>
+          <PanelSectionRow>
+            <DropdownItem
+              label={t.extraCollection}
+              rgOptions={[{ data: "", label: t.none }, ...userCollections().map((c) => ({ data: c.id, label: c.name }))]}
+              selectedOption={st.rowCollection}
+              onChange={(o) => change({ rowCollection: o.data })}
+            />
+          </PanelSectionRow>
+        </PanelSection>
+      )}
 
       <PanelSection title={t.lookSection}>
         <PanelSectionRow>
@@ -216,7 +235,7 @@ function Content() {
           />
         </PanelSectionRow>
         <PanelSectionRow>
-          <ButtonItem layout="below" onClick={() => change({ ...DEFAULT_SETTINGS })}>
+          <ButtonItem layout="below" onClick={() => change({ ...DEFAULT_SETTINGS, pins: st.pins })}>
             {t.resetDefaults}
           </ButtonItem>
         </PanelSectionRow>
@@ -246,12 +265,11 @@ export default definePlugin(() => {
   routerHook.addRoute(GAME_ROUTE, GamePage, { exact: true });
   startClassRetry();
   // Render only once stored settings are in, so a disabled theme never flashes on at boot.
-  getSettings()
-    .then((stored) => {
-      settings = withDefaults(stored);
-    })
-    .catch((e) => console.error("[xbox-dashboard] load failed", e))
-    .finally(render);
+  let unsubscribe: (() => void) | undefined;
+  initSettings().finally(() => {
+    render();
+    unsubscribe = subscribe(render);
+  });
 
   return {
     name: "Xbox Dashboard",
@@ -260,6 +278,7 @@ export default definePlugin(() => {
     icon: <FaXbox />,
     onDismount() {
       unloaded = true;
+      unsubscribe?.();
       if (retryTimer !== undefined) window.clearInterval(retryTimer);
       syncHomePatch();
       routerHook.removeRoute(MY_GAMES_ROUTE);

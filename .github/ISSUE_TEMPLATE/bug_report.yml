@@ -1,0 +1,53 @@
+name: Bug report
+description: Something looks wrong or doesn't work
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting! A screenshot (Steam + R1 in Game Mode) helps a lot.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: input
+    id: plugin
+    attributes:
+      label: Plugin version
+      placeholder: e.g. 0.0.2-alpha
+    validations:
+      required: true
+  - type: input
+    id: steam
+    attributes:
+      label: Steam client and SteamOS versions
+      description: Settings → System → About
+      placeholder: e.g. Steam 1761234567, SteamOS 3.8.2
+    validations:
+      required: true
+  - type: input
+    id: decky
+    attributes:
+      label: Decky Loader version
+      placeholder: e.g. v3.3.0
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where?
+      multiple: true
+      options:
+        - Home screen
+        - My games & apps
+        - Game page
+        - Store / Community / System tabs
+        - Steam menu or Quick Access
+        - Colors everywhere
+        - HowLongToBeat
+        - Other
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here.

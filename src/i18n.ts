@@ -135,6 +135,26 @@ const pt = {
   deckPlayable: "Jogável",
   deckUnsupported: "Não suportado",
   onDisk: (size: string) => `${size} no disco`,
+
+  // HowLongToBeat
+  hltbLabel: "Tempo para zerar (HowLongToBeat)",
+  hltbDesc: "Busca no HowLongToBeat quanto tempo leva para terminar o jogo e mostra na página do jogo e no Início.",
+  hltbMain: "História",
+  hltbPlus: "História + extras",
+  hltbFull: "100%",
+  hltbToBeat: (time: string) => `≈ ${time} para zerar`,
+  hltbSource: "HowLongToBeat",
+  hltbProgress: (pct: number) => `Você já jogou ${pct}% do tempo da história`,
+  hltbBeyond: "Você já passou do tempo da história",
+
+  // Pins and home rows
+  pin: "Fixar no Início",
+  unpin: "Desafixar",
+  pinnedToast: "Fixado no Início",
+  unpinnedToast: "Removido do Início",
+  homeRowsSection: "Fileiras do Início",
+  extraCollection: "Coleção extra",
+  none: "Nenhuma",
 };
 
 export type Strings = typeof pt;
@@ -263,6 +283,24 @@ const en: Strings = {
   deckPlayable: "Playable",
   deckUnsupported: "Unsupported",
   onDisk: (size: string) => `${size} on disk`,
+
+  hltbLabel: "Time to beat (HowLongToBeat)",
+  hltbDesc: "Looks up on HowLongToBeat how long the game takes to finish and shows it on the game page and Home.",
+  hltbMain: "Main story",
+  hltbPlus: "Main + extras",
+  hltbFull: "Completionist",
+  hltbToBeat: (time: string) => `≈ ${time} to beat`,
+  hltbSource: "HowLongToBeat",
+  hltbProgress: (pct: number) => `You've played ${pct}% of the main story time`,
+  hltbBeyond: "You've played past the main story time",
+
+  pin: "Pin to Home",
+  unpin: "Unpin",
+  pinnedToast: "Pinned to Home",
+  unpinnedToast: "Removed from Home",
+  homeRowsSection: "Home rows",
+  extraCollection: "Extra collection",
+  none: "None",
 };
 
 /** Steam's UI language, e.g. "pt-br" or "en"; falls back to the browser's. */

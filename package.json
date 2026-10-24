@@ -1,12 +1,13 @@
 {
   "name": "xbox-dashboard",
-  "version": "0.0.1-alpha",
+  "version": "0.0.2-alpha",
   "description": "The Xbox Series X|S dashboard look for SteamOS Game Mode",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "package": "npm run build && scripts/package.sh"
   },
   "license": "MIT",
   "devDependencies": {

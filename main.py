@@ -1,12 +1,25 @@
+import asyncio
 import json
 import os
 
 import decky
 
+from hltb_client import HltbClient
+
 SETTINGS_FILE = os.path.join(decky.DECKY_PLUGIN_SETTINGS_DIR, "settings.json")
+HLTB_CACHE_FILE = os.path.join(decky.DECKY_PLUGIN_RUNTIME_DIR, "hltb_cache.json")
 
 
 class Plugin:
+    hltb: HltbClient | None = None
+
+    async def hltb_times(self, appid: int, name: str) -> dict | None:
+        """HowLongToBeat times (in seconds) for a game, or None if it isn't found."""
+        if self.hltb is None:
+            self.hltb = HltbClient(HLTB_CACHE_FILE)
+        # The lookup does blocking HTTP; keep it off the loader's event loop.
+        return await asyncio.get_running_loop().run_in_executor(None, self.hltb.get, int(appid), str(name))
+
     async def get_settings(self) -> dict:
         try:
             with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
