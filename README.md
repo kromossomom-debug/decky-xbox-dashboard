@@ -34,6 +34,11 @@
   </tr>
 </table>
 
+<p align="center">
+  <img src="docs/screenshots/game.png" alt="Game page: full-screen art, Play button, badges, action cards and About panel" width="100%">
+  <br><sub><b>Game page</b> (press <b>Y</b> on any tile): Play, Deck compatibility, achievements and shortcuts</sub>
+</p>
+
 <sub>Layout previews at the Steam Deck's resolution (1280×800), shown with Steam in Portuguese.</sub>
 
 ## 📦 Install
@@ -56,6 +61,7 @@
 |---|---|
 | 🏠 **Xbox home screen** | Replaces Steam's home. The focused game's art fills the screen, with its logo and “Played today · 42 h played”. The first recent tile is larger, and the row ends with **My games & apps** and **Store**. Below come **Pinned** (your Favorites), **Installed** and **Shortcuts**. Scrolling down dims the art, just like on Xbox. |
 | 🔀 **LB / RB tabs** | **Home · My games & apps · Store · Community · System** across the top. LB and RB switch tabs, **B** goes back to Home. |
+| 🎯 **Game page** | Press **Y** on any tile for an Xbox-style game hub: full-screen art, logo, a big **Play** button (or **Install** / **Resume**), Steam Deck compatibility, Metacritic and size badges, an About panel, and cards for Achievements (with progress), Manage game, Controller, Store page and Steam's own page. |
 | 📚 **My games & apps** | A square tile grid with a side menu: Games, Apps, Installed, Favorites, Non-Steam and your own collections. Sort by Recent or A–Z. |
 | 🎨 **Xbox colors everywhere** | Steam's blue becomes the accent color and its bluish greys become Xbox's neutral greys, in menus, buttons, toggles and pages, including the ones the plugin doesn't draw. |
 | 🧭 **Guide-style menus** | The Steam menu and Quick Access get a dark panel, an accent stripe and the focused item in white with black text. |
@@ -68,7 +74,7 @@
 | Button | Action |
 |---|---|
 | **A** | Play the game (or open its page if it isn't installed) |
-| **≡** | Open the game's details |
+| **Y** | Open the game page |
 | **LB / RB** | Previous / next tab |
 | **B** | Back to Home |
 
@@ -109,6 +115,7 @@ src/
 ├── Shell.tsx        # tab bar (LB/RB) and the Store, Community and System tabs
 ├── XboxHome.tsx     # home: art, recent, pinned, installed, shortcuts
 ├── MyGames.tsx      # My games & apps
+├── GamePage.tsx     # game page (Play, badges, achievements, shortcuts)
 ├── components.tsx   # tiles, cards, rows and focus handling
 ├── steam.ts         # library, images, launching games, Steam routes
 ├── theme.ts         # theme CSS for Steam's own screens

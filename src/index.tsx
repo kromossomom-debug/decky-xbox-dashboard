@@ -17,7 +17,8 @@ import { Fallback } from "./components";
 import { t } from "./i18n";
 import { applyCss, removeCss } from "./injector";
 import { ACCENTS, BackgroundMode, accentColor, DEFAULT_SETTINGS, FocusStyle, Settings, withDefaults } from "./settings";
-import { MY_GAMES_ROUTE, openDonate } from "./steam";
+import { GamePage } from "./GamePage";
+import { GAME_ROUTE, MY_GAMES_ROUTE, openDonate } from "./steam";
 import { buildCss } from "./theme";
 import { XboxShell } from "./Shell";
 
@@ -242,6 +243,7 @@ function Content() {
 export default definePlugin(() => {
   unloaded = false;
   routerHook.addRoute(MY_GAMES_ROUTE, MyGamesRoute, { exact: true });
+  routerHook.addRoute(GAME_ROUTE, GamePage, { exact: true });
   startClassRetry();
   // Render only once stored settings are in, so a disabled theme never flashes on at boot.
   getSettings()
@@ -261,6 +263,7 @@ export default definePlugin(() => {
       if (retryTimer !== undefined) window.clearInterval(retryTimer);
       syncHomePatch();
       routerHook.removeRoute(MY_GAMES_ROUTE);
+      routerHook.removeRoute(GAME_ROUTE);
       removeCss();
     },
   };

@@ -11,10 +11,15 @@ export interface App {
   gameid?: string;
   rt_last_time_played?: number;
   minutes_playtime_forever?: number;
+  size_on_disk?: string;
+  /** 3 verified, 2 playable, 1 unsupported, 0 unknown. */
+  steam_deck_compat_category?: number;
+  metacritic_score?: number;
 }
 
 declare const collectionStore: any;
 declare const appStore: any;
+declare const appDetailsStore: any;
 declare const friendStore: any;
 declare const SteamClient: any;
 
@@ -28,6 +33,7 @@ const CDN = "https://shared.steamstatic.com/store_item_assets/steam/apps";
 const LAUNCH_SOURCE = 100;
 
 export const MY_GAMES_ROUTE = "/xbox-dashboard/games";
+export const GAME_ROUTE = "/xbox-dashboard/game/:appid";
 
 /** Game Mode routes, as Steam's own menus open them ("/media" alone renders an empty page). */
 export const ROUTES = {
@@ -125,14 +131,93 @@ export function runningAppId(): number | undefined {
   }
 }
 
-export function openDetails(app: App) {
+/** Steam's own game page. */
+export function openSteamPage(app: App) {
   Navigation.Navigate(`/library/app/${app.appid}`);
+}
+
+/** The plugin's Xbox-style game page. */
+export function openDetails(app: App) {
+  Navigation.Navigate(GAME_ROUTE.replace(":appid", String(app.appid)));
+}
+
+export function appById(appid: number): App | undefined {
+  try {
+    return appStore.GetAppOverviewByAppID(appid) ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+export function installApp(app: App) {
+  try {
+    SteamClient.Installs.OpenInstallWizard([app.appid]);
+  } catch (e) {
+    console.error("[xbox-dashboard] install wizard failed", e);
+    openSteamPage(app);
+  }
+}
+
+export function resumeRunningApp() {
+  try {
+    Router.NavigateToRunningApp(false);
+  } catch (e) {
+    console.error("[xbox-dashboard] resume failed", e);
+  }
+}
+
+export interface GameDetails {
+  developer?: string;
+  description?: string;
+  achieved: number;
+  totalAchievements: number;
+}
+
+/** Waits for a Steam request, but never longer than `ms`. */
+const settle = (p: unknown, ms: number) =>
+  Promise.race([Promise.resolve(p).catch(() => undefined), new Promise<void>((r) => setTimeout(r, ms))]);
+
+const DETAILS_TIMEOUT_MS = 4000;
+
+/** Developer, description and achievement progress, loaded on demand from Steam's details store. */
+export async function loadGameDetails(appid: number): Promise<GameDetails> {
+  try {
+    await Promise.all([
+      settle(appDetailsStore.RequestAppDetails?.(appid), DETAILS_TIMEOUT_MS),
+      settle(appDetailsStore.RequestDescriptionsData?.(appid), DETAILS_TIMEOUT_MS),
+      settle(appDetailsStore.RequestAchievements?.(appid), DETAILS_TIMEOUT_MS),
+    ]);
+  } catch {
+    // Show whatever is already there.
+  }
+  const details = appDetailsStore.GetAppDetails?.(appid);
+  const descriptions = appDetailsStore.GetDescriptions?.(appid);
+  const achievements = details?.achievements;
+  // Store descriptions can carry HTML; the page shows plain text.
+  const text = (descriptions?.strSnippet || descriptions?.strFullDescription || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return {
+    developer: details?.strDeveloperName || undefined,
+    description: text || undefined,
+    achieved: achievements?.nAchieved ?? 0,
+    totalAchievements: achievements?.nTotal ?? 0,
+  };
+}
+
+export function formatSize(bytes?: string | number): string | undefined {
+  const n = Number(bytes ?? 0);
+  if (!n) return undefined;
+  const gb = n / 1024 ** 3;
+  return gb >= 1 ? `${gb.toFixed(1)} GB` : `${Math.max(1, Math.round(n / 1024 ** 2))} MB`;
 }
 
 /** A on a tile: start the game like on Xbox; open its page when it can't start right away. */
 export function launch(app: App) {
   const playable = app.installed || app.app_type === APP_TYPE_SHORTCUT;
-  if (!playable || runningAppId() === app.appid) {
+  if (runningAppId() === app.appid) {
+    resumeRunningApp();
+    return;
+  }
+  if (!playable) {
     openDetails(app);
     return;
   }

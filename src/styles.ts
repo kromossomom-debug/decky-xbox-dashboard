@@ -172,4 +172,75 @@ export const XBOX_CSS = `
 .xbd-card-icon svg { display: block; }
 .xbd-card-title { font-size: 2.4vh; font-weight: 600; }
 .xbd-card-desc { margin-top: 0.4vh; font-size: 1.7vh; opacity: 0.75; }
+
+/* ---------- game page (Xbox game hub) ---------- */
+.xbd-gp-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.55) 42%, rgba(8,8,8,0.05) 72%),
+    linear-gradient(to top, #080808 0%, rgba(8,8,8,0.65) 34%, rgba(8,8,8,0) 62%);
+}
+.xbd-gp-body {
+  position: absolute; inset: 0; z-index: 2; padding: 0 5vw 9vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.xbd-gp-head { max-width: 52vw; animation: xbd-rise 350ms ease both; }
+.xbd-gp-logo { display: block; max-width: 36vw; max-height: 18vh; object-fit: contain; object-position: left bottom; }
+.xbd-gp-title { font-size: 6vh; font-weight: 700; line-height: 1.05; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+.xbd-gp-sub { margin-top: 1.4vh; font-size: 2.1vh; opacity: 0.9; }
+.xbd-gp-badges { display: flex; flex-wrap: wrap; gap: 1vh; margin-top: 1.4vh; }
+.xbd-gp-badge {
+  display: inline-flex; align-items: center; gap: 0.6vh; padding: 0.5vh 1.2vh; border-radius: 999px;
+  background: rgba(255,255,255,0.12); font-size: 1.7vh; font-weight: 600;
+}
+.xbd-gp-badge svg { font-size: 2vh; }
+.xbd-gp-badge-accent { background: var(--a); }
+.xbd-gp-deck-verified svg { color: #6cd25c; }
+.xbd-gp-deck-playable svg { color: #ffc82c; }
+.xbd-gp-deck-unsupported svg { color: #9a9a9a; }
+
+.xbd-gp-actions { display: flex; gap: 1.6vh; margin-top: 3vh; }
+.xbd-gp-play, .xbd-gp-more {
+  height: 7vh; border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+  transition: transform 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+.xbd-gp-play {
+  min-width: 32vh; padding: 0 3vh; gap: 1.2vh; background: var(--a);
+  font-size: 2.6vh; font-weight: 700;
+}
+.xbd-gp-play svg { font-size: 3.6vh; }
+.xbd-gp-more { width: 7vh; background: rgba(255,255,255,0.14); font-size: 3vh; }
+.xbd-gp-play.xbd-focused, .xbd-gp-more.xbd-focused {
+  background: #fff; color: #000; transform: scale(1.04);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--f), 0 6px 16px rgba(0,0,0,0.5);
+}
+
+.xbd-gp-cards { margin: 1.4vh -0.8vh 0; padding: 1.6vh 0.8vh; gap: 1.6vh; align-items: stretch; }
+.xbd-gp-card {
+  position: relative; flex: 0 0 auto; width: 25vh; height: 15vh; padding: 1.6vh;
+  display: flex; flex-direction: column; border-radius: var(--r);
+  background: rgba(32,32,32,0.88); transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.xbd-gp-card.xbd-focused {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--f), 0 6px 16px rgba(0,0,0,0.5);
+}
+.xbd-gp-card-icon { font-size: 3.6vh; line-height: 1; }
+.xbd-gp-card-icon svg { display: block; }
+.xbd-gp-card-title { margin-top: auto; font-size: 2vh; font-weight: 600; }
+.xbd-gp-card-desc { margin-top: 0.3vh; font-size: 1.6vh; opacity: 0.75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.xbd-gp-progress { height: 0.6vh; margin-top: 0.8vh; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: hidden; }
+.xbd-gp-progress > div { height: 100%; background: var(--a); }
+
+.xbd-gp-about {
+  position: absolute; top: 56px; right: 5vw; z-index: 2; width: 30vw; max-height: 46vh; padding: 2.4vh;
+  border-radius: calc(var(--r) * 2); background: rgba(12,12,12,0.74); overflow: hidden;
+  animation: xbd-fade 400ms ease both;
+}
+.xbd-gp-about-title { font-size: 2.2vh; font-weight: 700; }
+.xbd-gp-about p {
+  margin: 1vh 0 0; font-size: 1.8vh; line-height: 1.45; opacity: 0.88;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 9; overflow: hidden;
+}
+.xbd-gp-about-meta { margin-top: 1.2vh; font-size: 1.7vh; opacity: 0.8; }
 `;
