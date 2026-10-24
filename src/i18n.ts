@@ -148,6 +148,8 @@ const pt = {
   hltbBeyond: "Você já passou do tempo da história",
 
   // Pins and home rows
+  effectsLabel: "Efeitos visuais nos menus",
+  effectsDesc: "Animações leves no menu Steam, no Acesso Rápido e no menu de energia.",
   pin: "Fixar no Início",
   unpin: "Desafixar",
   pinnedToast: "Fixado no Início",
@@ -294,6 +296,8 @@ const en: Strings = {
   hltbProgress: (pct: number) => `You've played ${pct}% of the main story time`,
   hltbBeyond: "You've played past the main story time",
 
+  effectsLabel: "Menu effects",
+  effectsDesc: "Light animations in the Steam menu, Quick Access and power menu.",
   pin: "Pin to Home",
   unpin: "Unpin",
   pinnedToast: "Pinned to Home",

@@ -1,8 +1,10 @@
-import { findClassModule } from "@decky/ui";
+import { classMap } from "@decky/ui";
 
 /**
  * Steam's CSS class names are hashed and change between client updates, so each module
  * is found at runtime by a few of its (stable) key names instead of hard-coding hashes.
+ * When several modules share those keys (Steam has more than one build of some menus), a
+ * selector matches all of them.
  */
 const MODULE_KEYS = {
   ui: ["BasicUiRoot", "MainNavMenuAnchor"],
@@ -12,7 +14,8 @@ const MODULE_KEYS = {
   portrait: ["LibraryItemBox", "PortraitImage", "InRecentGames"],
   asset: ["LandscapeImage", "PortraitImage", "GreyBackground"],
   header: ["DashboardBar", "HeaderItem", "CurrentUserAvatar", "Clock"],
-  mainMenu: ["ItemOuter", "ActiveDot", "RunningAppIcon", "Menu"],
+  // Steam ships several builds of its main menu (normal, game running, dashboard); all get styled.
+  mainMenu: ["ItemOuter", "ActiveDot", "Item"],
   tabs: ["GamepadTabbedPage", "TabRowTabs", "TabTitle"],
   focusRing: ["FocusRing", "FocusRingOnHiddenItem", "growOutline"],
   whatsNew: ["LibraryHomeWhatsNew", "Empty"],
@@ -22,6 +25,9 @@ const MODULE_KEYS = {
   dialog: ["GamepadDialogContent", "ToggleRail", "ToggleSwitch"],
   slider: ["SliderTrack", "SliderHandle", "SliderControl"],
   appAction: ["PlayButton", "PlayButtonContainer", "ShutdownAppButton"],
+  // Context menus: the power menu (Suspend / Restart / Shut down) and every "…" menu.
+  ctx: ["contextMenu", "contextMenuItem", "MenuSectionHeader"],
+  qamControls: ["PanelSection", "PanelSectionTitle", "PanelSectionRow"],
 } as const;
 
 export type ModuleName = keyof typeof MODULE_KEYS;
@@ -40,16 +46,21 @@ export function resolveClasses(): ResolvedClasses {
   const sel = {} as Selectors;
   const missing: ModuleName[] = [];
   for (const [name, keys] of Object.entries(MODULE_KEYS) as [ModuleName, readonly string[]][]) {
-    let mod: Record<string, string> | undefined;
+    let mods: Record<string, string>[] = [];
     try {
-      mod = (findClassModule((m) => keys.every((k) => typeof m?.[k] === "string")) as any) ?? undefined;
+      mods = classMap.filter((m: any) => keys.every((k) => typeof m?.[k] === "string")) as any;
     } catch {
-      mod = undefined;
+      mods = [];
     }
-    if (!mod) missing.push(name);
-    // `sel.carousel.IsFocused` -> ".hash", or an inert selector if the module/key isn't there.
+    if (!mods.length) missing.push(name);
+    // `sel.carousel.IsFocused` -> ".hash" (or ":is(.a, .b)" across builds), or an inert selector.
     sel[name] = new Proxy({} as Record<string, string>, {
-      get: (_t, key: string) => (mod && typeof mod[key] === "string" ? `.${CSS.escape(mod[key])}` : MISSING),
+      get: (_t, key: string) => {
+        const hashes = [...new Set(mods.map((m) => m[key]).filter((h) => typeof h === "string"))];
+        if (!hashes.length) return MISSING;
+        const classes = hashes.map((h) => `.${CSS.escape(h)}`);
+        return classes.length === 1 ? classes[0] : `:is(${classes.join(", ")})`;
+      },
     });
   }
   return { sel, missing };

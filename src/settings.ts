@@ -22,6 +22,8 @@ export interface Settings {
   hideShelves: boolean;
   /** Use a Segoe UI style font. */
   font: boolean;
+  /** Light animations in the Steam menu, Quick Access and context menus. */
+  effects: boolean;
   /** Show HowLongToBeat times on the game page and home screen. */
   hltb: boolean;
   /** Games pinned to Home, most recent first. */
@@ -58,6 +60,7 @@ export const DEFAULT_SETTINGS: Settings = {
   guide: true,
   hideShelves: false,
   font: true,
+  effects: true,
   hltb: true,
   pins: [],
   rowPinned: true,

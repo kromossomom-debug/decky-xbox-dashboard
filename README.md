@@ -67,7 +67,8 @@
 | 🧱 **Your own Home rows** | Turn Pinned, Installed and Shortcuts on or off, and add one of your Steam collections as an extra row. |
 | 📚 **My games & apps** | A square tile grid with a side menu: Games, Apps, Installed, Favorites, Non-Steam and your own collections. Sort by Recent or A–Z. |
 | 🎨 **Xbox colors everywhere** | Steam's blue becomes the accent color and its bluish greys become Xbox's neutral greys, in menus, buttons, toggles and pages, including the ones the plugin doesn't draw. |
-| 🧭 **Guide-style menus** | The Steam menu and Quick Access get a dark panel, an accent stripe and the focused item in white with black text. |
+| 🧭 **Guide-style menus** | The Steam menu, Quick Access and the power menu get a dark panel with an accent glow, an accent stripe and the focused item in white with black text (red for Shut down and other destructive actions). |
+| ✨ **Menu effects** | Light animations: Steam menu items slide in one after another, the power menu pops in, Quick Access panels fade up. Transform and opacity only, so they stay smooth, and they follow the system's reduce-motion setting. |
 | ⬜ **Series X\|S focus** | A white ring with a dark gap around the focused tile, and rounded corners. |
 | 🔤 **Segoe-style font** | Uses Segoe UI or Selawik when installed, otherwise Noto Sans. |
 | 🌐 **English & Portuguese** | Follows Steam's language: Portuguese when Steam is in Portuguese, English otherwise. |
@@ -96,7 +97,8 @@ Everything lives in the plugin's panel in Quick Access. Your choices are saved t
 | Home background | Game art | Game art, an accent-color gradient or dark |
 | Focus | White ring | White ring or accent-color ring |
 | Tile corner radius | 6 px | 0 to 16 px |
-| Xbox Guide-style menus | on | Guide-style Steam menu and Quick Access |
+| Xbox Guide-style menus | on | Guide-style Steam menu, Quick Access and power menu |
+| Menu effects | on | Light animations in those menus |
 | Clean home screen | off | Hides What's New, Friends and Recommended (on Steam's home) |
 | Segoe-style font | on | Swaps the interface font |
 | Time to beat (HowLongToBeat) | on | Shows HowLongToBeat times on the game page and Home |

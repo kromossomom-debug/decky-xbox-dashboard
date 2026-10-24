@@ -219,6 +219,16 @@ function Content() {
             onChange={(guide) => change({ guide })}
           />
         </PanelSectionRow>
+        {st.guide && (
+          <PanelSectionRow>
+            <ToggleField
+              label={t.effectsLabel}
+              description={t.effectsDesc}
+              checked={st.effects}
+              onChange={(effects) => change({ effects })}
+            />
+          </PanelSectionRow>
+        )}
         <PanelSectionRow>
           <ToggleField
             label={t.cleanHomeLabel}

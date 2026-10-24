@@ -205,7 +205,7 @@ function GameHub({ app }: { app: App }) {
               title={t.achievements}
               description={total ? t.achievementsCount(got, total) : t.achievementsNone}
               progress={total ? got / total : undefined}
-              onActivate={() => Navigation.Navigate(`/library/app/${app.appid}/achievements`)}
+              onActivate={() => Navigation.Navigate(`/library/app/${app.appid}/achievements/my`)}
             />
           )}
           <ActionCard
