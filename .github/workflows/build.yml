@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm run build
+      - run: python3 -m py_compile main.py py_modules/*.py
+      - run: scripts/package.sh xbox-dashboard.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xbox-dashboard
+          path: xbox-dashboard.zip
+
+      # Pushing a tag like v0.0.2-alpha publishes a release with the ZIP attached.
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          prerelease=""
+          if [[ "$TAG" == *alpha* || "$TAG" == *beta* ]]; then prerelease="--prerelease"; fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" xbox-dashboard.zip --clobber
+          else
+            gh release create "$TAG" xbox-dashboard.zip --title "Xbox Dashboard $TAG" --generate-notes $prerelease
+          fi
