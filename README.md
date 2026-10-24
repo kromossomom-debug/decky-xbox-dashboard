@@ -64,7 +64,8 @@
 | 🎯 **Game page** | Press **Y** on any tile for an Xbox-style game hub: full-screen art, logo, a big **Play** button (or **Install** / **Resume**), Steam Deck compatibility, Metacritic and size badges, an About panel, and cards for Achievements (with progress), Manage game, Controller, Store page and Steam's own page. |
 | ⏱️ **HowLongToBeat** | Main story, main + extras and completionist times on the game page, with how far your playtime is into the story, and “≈ 20 h to beat” next to the focused game on Home. Looked up only when you look at a game and cached for a week. |
 | 📌 **Pin to Home** | Press **X** on any tile (or the pin button on the game page) to pin or unpin it. Pinned games fill the **Pinned** row; until you pin something, your Steam Favorites stand in. |
-| 🧱 **Your own Home rows** | Turn Pinned, Installed and Shortcuts on or off, and add one of your Steam collections as an extra row. |
+| 🧱 **Your own Home rows** | Choose what fills the big first row (recently played, pinned, installed, favorites or any collection), turn Pinned, Installed and Shortcuts on or off, and add one of your collections as an extra row. |
+| 🙈 **Customize Home games** | A page (plugin panel → **Customize Home games**) with every game that can show on Home: **A** hides or shows it, **X** pins or unpins it. One button brings all hidden games back. |
 | 📚 **My games & apps** | A square tile grid with a side menu: Games, Apps, Installed, Favorites, Non-Steam and your own collections. Sort by Recent or A–Z. |
 | 🎨 **Xbox colors everywhere** | Steam's blue becomes the accent color and its bluish greys become Xbox's neutral greys, in menus, buttons, toggles and pages, including the ones the plugin doesn't draw. |
 | 🧭 **Guide-style menus** | The Steam menu, Quick Access and the power menu get a dark panel with an accent glow, an accent stripe and the focused item in white with black text (red for Shut down and other destructive actions). |
@@ -96,12 +97,13 @@ Everything lives in the plugin's panel in Quick Access. Your choices are saved t
 | Accent color | Xbox green | Xbox green, Series X\|S green, lime, blue, red, purple, orange, pink or white |
 | Home background | Game art | Game art, an accent-color gradient or dark |
 | Focus | White ring | White ring or accent-color ring |
-| Tile corner radius | 6 px | 0 to 16 px |
+| Tile corner radius | 6 px | 0 to 32 px |
 | Xbox Guide-style menus | on | Guide-style Steam menu, Quick Access and power menu |
 | Menu effects | on | Light animations in those menus |
 | Clean home screen | off | Hides What's New, Friends and Recommended (on Steam's home) |
 | Segoe-style font | on | Swaps the interface font |
 | Time to beat (HowLongToBeat) | on | Shows HowLongToBeat times on the game page and Home |
+| Main row | Recently played | What fills Home's big first row |
 | Home rows | Pinned, Installed, Shortcuts | Which rows Home shows, plus one extra collection |
 
 > **Something looks off?** Turn off **Xbox colors everywhere** or **Xbox home screen**: Steam goes back to normal right away, no restart needed.
@@ -124,6 +126,7 @@ src/
 ├── Shell.tsx        # tab bar (LB/RB) and the Store, Community and System tabs
 ├── XboxHome.tsx     # home: art, recent, pinned, installed, shortcuts
 ├── MyGames.tsx      # My games & apps
+├── CustomizeHome.tsx # hide, show and pin the games on Home
 ├── GamePage.tsx     # game page (Play, badges, achievements, shortcuts)
 ├── components.tsx   # tiles, cards, rows and focus handling
 ├── steam.ts         # library, images, launching games, Steam routes

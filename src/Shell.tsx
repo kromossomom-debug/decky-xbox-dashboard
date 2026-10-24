@@ -7,6 +7,7 @@ import { Card, FOCUSED_CLASS, useFocusReveal } from "./components";
 import { GamesTab } from "./MyGames";
 import { t } from "./i18n";
 import { ROUTES, openStore, persona } from "./steam";
+import { useRootVars } from "./store";
 import { XBOX_CSS } from "./styles";
 import { HomeTab } from "./XboxHome";
 
@@ -89,6 +90,7 @@ function TabBar({ tab, onSelect }: { tab: TabId; onSelect: (t: TabId) => void })
 /** The Xbox dashboard: a tab bar on top (LB/RB to switch, like the Xbox) and one page per tab. */
 export function XboxShell({ initialTab = "home" }: { initialTab?: TabId }) {
   const [tab, setTab] = useState<TabId>(initialTab);
+  const rootVars = useRootVars();
   const root = useRef<HTMLDivElement>(null);
   const contentNav = useRef<any>(null);
   const firstRender = useRef(true);
@@ -126,7 +128,7 @@ export function XboxShell({ initialTab = "home" }: { initialTab?: TabId }) {
 
   const cards = CARD_TABS[tab];
   return (
-    <div className={`xbd-root xbd-tab-${tab}`} ref={root}>
+    <div className={`xbd-root xbd-tab-${tab}`} ref={root} style={rootVars}>
       <style>{XBOX_CSS}</style>
       <ProfileBar />
       <TabBar tab={tab} onSelect={setTab} />

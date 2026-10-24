@@ -16,8 +16,8 @@ import {
   lastPlayedText,
   logoUrls,
   playtimeText,
-  recentApps,
   ROUTES,
+  topRowApps,
   userCollections,
 } from "./steam";
 import { useSettings } from "./store";
@@ -128,19 +128,25 @@ const HomeRows = memo(function HomeRows({ recents, rows, shortcuts, goTab, onTop
 
 export function HomeTab({ goTab }: { goTab: (tab: TabId) => void }) {
   const settings = useSettings();
-  const recents = useMemo(() => recentApps(RECENT_COUNT), []);
+  const hidden = useMemo(() => new Set(settings.hiddenHome), [settings.hiddenHome]);
+  const recents = useMemo(
+    () => topRowApps(settings.topRow, settings.pins).filter((a) => !hidden.has(a.appid)).slice(0, RECENT_COUNT),
+    [settings.topRow, settings.pins, hidden],
+  );
   const rows = useMemo<GameRow[]>(() => {
+    const shown = (apps: App[]) => apps.filter((a) => !hidden.has(a.appid)).slice(0, ROW_COUNT);
     const list: GameRow[] = [];
     if (settings.rowPinned) {
       // Games pinned with X / "Pin to Home"; until there are any, the Steam Favorites stand in.
+      // Pinning is explicit, so a pinned game shows here even if it was hidden from the other rows.
       const pinned = settings.pins.map(appById).filter((a): a is App => !!a);
-      list.push({ title: t.rowPinned, apps: (pinned.length ? pinned : favoriteApps().sort(byRecent)).slice(0, ROW_COUNT) });
+      list.push({ title: t.rowPinned, apps: pinned.length ? pinned.slice(0, ROW_COUNT) : shown(favoriteApps().sort(byRecent)) });
     }
-    if (settings.rowInstalled) list.push({ title: t.rowInstalled, apps: installedApps().sort(byRecent).slice(0, ROW_COUNT) });
+    if (settings.rowInstalled) list.push({ title: t.rowInstalled, apps: shown(installedApps().sort(byRecent)) });
     const extra = settings.rowCollection && userCollections().find((c) => c.id === settings.rowCollection);
-    if (extra) list.push({ title: extra.name, apps: extra.apps().sort(byRecent).slice(0, ROW_COUNT) });
+    if (extra) list.push({ title: extra.name, apps: shown(extra.apps().sort(byRecent)) });
     return list;
-  }, [settings.rowPinned, settings.rowInstalled, settings.rowCollection, settings.pins]);
+  }, [settings.rowPinned, settings.rowInstalled, settings.rowCollection, settings.pins, hidden]);
 
   const [focused, setFocused] = useState<App | undefined>(recents[0]);
   const [backdrop, setBackdrop] = useState<App | undefined>(recents[0]);

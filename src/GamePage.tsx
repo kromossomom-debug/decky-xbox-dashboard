@@ -34,7 +34,7 @@ import {
   resumeRunningApp,
   runningAppId,
 } from "./steam";
-import { useSettings } from "./store";
+import { useRootVars, useSettings } from "./store";
 import { XBOX_CSS } from "./styles";
 
 function deckBadge(category?: number): { label: string; kind: string } | undefined {
@@ -115,6 +115,7 @@ function GameHub({ app }: { app: App }) {
   useFocusReveal(root);
   const hltb = useHltb(app);
   const pinned = useSettings().pins.includes(app.appid);
+  const rootVars = useRootVars();
 
   useEffect(() => {
     let alive = true;
@@ -142,7 +143,7 @@ function GameHub({ app }: { app: App }) {
       : { label: t.install, icon: <MdDownload />, go: () => installApp(app) };
 
   return (
-    <div className="xbd-root xbd-game" ref={root}>
+    <div className="xbd-root xbd-game" ref={root} style={rootVars}>
       <style>{XBOX_CSS}</style>
       <div className="xbd-backdrop">
         <Art className="xbd-backdrop-img" sources={heroUrls(app)} />

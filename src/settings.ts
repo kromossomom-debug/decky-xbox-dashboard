@@ -34,6 +34,10 @@ export interface Settings {
   rowShortcuts: boolean;
   /** Id of one of the player's collections to show as an extra row, or "" for none. */
   rowCollection: string;
+  /** What fills the big first row: "recent", "pinned", "installed", "favorites" or "c:<collection id>". */
+  topRow: string;
+  /** Games kept off Home (except the Pinned row, since pinning is explicit). */
+  hiddenHome: number[];
 }
 
 export const ACCENTS: { id: string; label: string; color: string }[] = [
@@ -67,6 +71,8 @@ export const DEFAULT_SETTINGS: Settings = {
   rowInstalled: true,
   rowShortcuts: true,
   rowCollection: "",
+  topRow: "recent",
+  hiddenHome: [],
 };
 
 export function accentColor(id: string): string {

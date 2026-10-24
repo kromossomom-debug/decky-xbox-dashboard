@@ -34,6 +34,7 @@ const LAUNCH_SOURCE = 100;
 
 export const MY_GAMES_ROUTE = "/xbox-dashboard/games";
 export const GAME_ROUTE = "/xbox-dashboard/game/:appid";
+export const CUSTOMIZE_ROUTE = "/xbox-dashboard/customize";
 
 /** Game Mode routes, as Steam's own menus open them ("/media" alone renders an empty page). */
 export const ROUTES = {
@@ -254,4 +255,20 @@ export function playtimeText(app: App): string {
   const m = app.minutes_playtime_forever ?? 0;
   if (m < 60) return m > 0 ? t.minutesPlayed(m) : "";
   return t.hoursPlayed(Math.round(m / 60));
+}
+
+/** The games for Home's big first row, before hidden ones are taken out. */
+export function topRowApps(source: string, pins: number[]): App[] {
+  const recent = () => recentApps(40);
+  if (source === "pinned") {
+    const pinned = pins.map(appById).filter((a): a is App => !!a);
+    return pinned.length ? pinned : recent();
+  }
+  if (source === "installed") return installedApps().sort(byRecent);
+  if (source === "favorites") return favoriteApps().sort(byRecent);
+  if (source.startsWith("c:")) {
+    const c = userCollections().find((col) => col.id === source.slice(2));
+    if (c) return c.apps().sort(byRecent);
+  }
+  return recent();
 }

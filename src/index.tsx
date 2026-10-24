@@ -18,7 +18,8 @@ import { applyCss, removeCss } from "./injector";
 import { ACCENTS, BackgroundMode, accentColor, DEFAULT_SETTINGS, FocusStyle } from "./settings";
 import { getSettings, initSettings, subscribe, updateSettings, useSettings } from "./store";
 import { GamePage } from "./GamePage";
-import { GAME_ROUTE, MY_GAMES_ROUTE, openDonate, userCollections } from "./steam";
+import { CUSTOMIZE_ROUTE, GAME_ROUTE, MY_GAMES_ROUTE, openDonate, userCollections } from "./steam";
+import { CustomizeHome } from "./CustomizeHome";
 import { buildCss } from "./theme";
 import { XboxShell } from "./Shell";
 
@@ -124,6 +125,32 @@ function Content() {
       {st.xboxHome && (
         <PanelSection title={t.homeRowsSection}>
           <PanelSectionRow>
+            <DropdownItem
+              label={t.topRowLabel}
+              rgOptions={[
+                { data: "recent", label: t.topRowRecent },
+                { data: "pinned", label: t.rowPinned },
+                { data: "installed", label: t.rowInstalled },
+                { data: "favorites", label: t.viewFavorites },
+                ...userCollections().map((c) => ({ data: `c:${c.id}`, label: c.name })),
+              ]}
+              selectedOption={st.topRow}
+              onChange={(o) => change({ topRow: o.data })}
+            />
+          </PanelSectionRow>
+          <PanelSectionRow>
+            <ButtonItem layout="below" onClick={() => Navigation.Navigate(CUSTOMIZE_ROUTE)}>
+              {t.customizeHome}
+            </ButtonItem>
+          </PanelSectionRow>
+          {st.hiddenHome.length > 0 && (
+            <PanelSectionRow>
+              <ButtonItem layout="below" onClick={() => change({ hiddenHome: [] })}>
+                {t.restoreHidden(st.hiddenHome.length)}
+              </ButtonItem>
+            </PanelSectionRow>
+          )}
+          <PanelSectionRow>
             <ToggleField label={t.rowPinned} checked={st.rowPinned} onChange={(rowPinned) => change({ rowPinned })} />
           </PanelSectionRow>
           <PanelSectionRow>
@@ -201,7 +228,7 @@ function Content() {
             label={t.radiusLabel}
             value={st.radius}
             min={0}
-            max={16}
+            max={32}
             step={1}
             showValue
             valueSuffix="px"
@@ -245,7 +272,7 @@ function Content() {
           />
         </PanelSectionRow>
         <PanelSectionRow>
-          <ButtonItem layout="below" onClick={() => change({ ...DEFAULT_SETTINGS, pins: st.pins })}>
+          <ButtonItem layout="below" onClick={() => change({ ...DEFAULT_SETTINGS, pins: st.pins, hiddenHome: st.hiddenHome })}>
             {t.resetDefaults}
           </ButtonItem>
         </PanelSectionRow>
@@ -273,6 +300,7 @@ export default definePlugin(() => {
   unloaded = false;
   routerHook.addRoute(MY_GAMES_ROUTE, MyGamesRoute, { exact: true });
   routerHook.addRoute(GAME_ROUTE, GamePage, { exact: true });
+  routerHook.addRoute(CUSTOMIZE_ROUTE, CustomizeHome, { exact: true });
   startClassRetry();
   // Render only once stored settings are in, so a disabled theme never flashes on at boot.
   let unsubscribe: (() => void) | undefined;
@@ -293,6 +321,7 @@ export default definePlugin(() => {
       syncHomePatch();
       routerHook.removeRoute(MY_GAMES_ROUTE);
       routerHook.removeRoute(GAME_ROUTE);
+      routerHook.removeRoute(CUSTOMIZE_ROUTE);
       removeCss();
     },
   };

@@ -255,4 +255,21 @@ export const XBOX_CSS = `
 .xbd-gp-hltb-source { margin-left: auto; font-size: 1.3vh; opacity: 0.5; align-self: flex-start; }
 .xbd-gp-hltb .xbd-gp-progress { margin-top: 1.2vh; }
 .xbd-gp-hltb-note { margin-top: 0.6vh; font-size: 1.5vh; opacity: 0.8; }
+
+/* ---------- Customize Home ---------- */
+.xbd-customize {
+  background: radial-gradient(ellipse at 10% -20%, color-mix(in srgb, var(--a) 30%, #0b0b0b) 0%, #0b0b0b 60%);
+}
+.xbd-cz-head { position: absolute; top: 48px; left: 4vw; right: 4vw; }
+.xbd-cz-title { font-size: 3.4vh; font-weight: 600; }
+.xbd-cz-hint { margin-top: 0.6vh; font-size: 1.9vh; opacity: 0.75; }
+.xbd-cz-body { position: absolute; top: calc(48px + 10vh); left: calc(4vw - 1.2vh); right: 4vw; bottom: 0; display: flex; flex-direction: column; }
+.xbd-customize .xbd-tile-name { opacity: 1; }
+.xbd-tile-hidden .xbd-cover { opacity: 0.28; }
+.xbd-cz-state {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 5vh; pointer-events: none; text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.xbd-cz-pin { align-items: flex-start; justify-content: flex-end; padding: 1vh; font-size: 2.6vh; color: var(--a); }
+.xbd-badge-muted { background: rgba(0,0,0,0.75); }
 `;
