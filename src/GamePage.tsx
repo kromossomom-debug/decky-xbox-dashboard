@@ -1,4 +1,4 @@
-import { Focusable, Navigation, useParams } from "@decky/ui";
+import { Focusable, GamepadButton, GamepadEvent, Navigation, useParams } from "@decky/ui";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { FaSteam } from "react-icons/fa";
 import {
@@ -14,6 +14,7 @@ import {
 } from "react-icons/md";
 
 import { Art, FOCUSED_CLASS, pinWithToast, useFocusReveal } from "./components";
+import { openGameMenu } from "./gameMenu";
 import { HltbTimes, formatDuration, useHltb } from "./hltb";
 import { t } from "./i18n";
 import {
@@ -150,7 +151,15 @@ function GameHub({ app }: { app: App }) {
         <div className="xbd-gp-shade" />
       </div>
 
-      <Focusable className="xbd-gp-body" flow-children="column" onCancelButton={() => Navigation.NavigateBack()}>
+      <Focusable
+        className="xbd-gp-body"
+        flow-children="column"
+        onCancelButton={() => Navigation.NavigateBack()}
+        onButtonDown={(e: GamepadEvent) => {
+          if (e.detail?.button === GamepadButton.SELECT) openGameMenu(app, e.target ?? undefined);
+        }}
+        actionDescriptionMap={{ [GamepadButton.SELECT]: t.options }}
+      >
         <div className="xbd-gp-head">
           <Art className="xbd-gp-logo" sources={logoUrls(app)} fallback={<div className="xbd-gp-title">{app.display_name}</div>} />
           {sub && <div className="xbd-gp-sub">{sub}</div>}

@@ -272,3 +272,28 @@ export function topRowApps(source: string, pins: number[]): App[] {
   }
   return recent();
 }
+
+export function isFavorite(appid: number): boolean {
+  try {
+    return !!collectionStore.GetCollection("favorite")?.apps?.has(appid);
+  } catch {
+    return false;
+  }
+}
+
+export function setFavorite(appid: number, favorite: boolean) {
+  try {
+    collectionStore.SetAppsAsFavorite([appid], favorite);
+  } catch (e) {
+    console.error("[xbox-dashboard] favorite failed", e);
+  }
+}
+
+/** Whether another Decky plugin (by its display name) is loaded, e.g. "SteamGridDB". */
+export function hasDeckyPlugin(name: string): boolean {
+  try {
+    return !!(window as any).DeckyPluginLoader?.plugins?.some((p: any) => p.name === name);
+  } catch {
+    return false;
+  }
+}

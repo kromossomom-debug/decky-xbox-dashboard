@@ -1,7 +1,8 @@
 import { toaster } from "@decky/api";
-import { Focusable, NavEntryPositionPreferences } from "@decky/ui";
+import { Focusable, GamepadButton, GamepadEvent, NavEntryPositionPreferences } from "@decky/ui";
 import { Component, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 
+import { openGameMenu } from "./gameMenu";
 import { t } from "./i18n";
 import { isPinned, togglePin } from "./store";
 import { APP_TYPE_SHORTCUT, App, heroUrls, launch, openDetails, portraitUrls, runningAppId } from "./steam";
@@ -74,6 +75,8 @@ interface TileProps {
   onActivate: () => void;
   onOptions?: () => void;
   onSecondary?: () => void;
+  /** SELECT (the View button): the game options menu. */
+  onSelect?: (anchor: EventTarget) => void;
   secondaryLabel?: string;
   okLabel?: string;
   children: ReactNode;
@@ -102,6 +105,16 @@ export function Tile(p: TileProps) {
       onOptionsButton={p.onOptions}
       onOptionsActionDescription={p.onOptions ? t.details : undefined}
       onSecondaryButton={p.onSecondary}
+      onButtonDown={
+        p.onSelect
+          ? (e: GamepadEvent) => {
+              if (e.detail?.button !== GamepadButton.SELECT) return;
+              e.stopPropagation();
+              p.onSelect?.(ref.current ?? e.target!);
+            }
+          : undefined
+      }
+      actionDescriptionMap={p.onSelect ? { [GamepadButton.SELECT]: t.options } : undefined}
       onSecondaryActionDescription={p.secondaryLabel}
     >
       <div className="xbd-tile-art">{p.children}</div>
@@ -141,6 +154,7 @@ export function GameTile({
       onActivate={() => launch(app)}
       onOptions={() => openDetails(app)}
       onSecondary={() => pinWithToast(app)}
+      onSelect={(anchor) => openGameMenu(app, anchor)}
       secondaryLabel={isPinned(app.appid) ? t.unpin : t.pin}
       okLabel={running ? t.resume : playable ? t.play : t.open}
       className={playable ? "" : "xbd-not-installed"}

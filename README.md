@@ -81,6 +81,7 @@
 | **A** | Play the game (or open its page if it isn't installed) |
 | **Y** | Open the game page |
 | **X** | Pin to / unpin from Home |
+| **SELECT** (View) | Game options: play, game info, change cover & artwork (with the SteamGridDB plugin), pin, hide, favorite, achievements, properties |
 | **LB / RB** | Previous / next tab |
 | **B** | Back to Home |
 

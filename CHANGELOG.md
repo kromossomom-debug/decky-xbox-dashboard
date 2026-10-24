@@ -3,6 +3,16 @@
 All notable changes to Xbox Dashboard. Versions are alphas: install the ZIP from each release with
 Decky's **Developer → Install Plugin from ZIP**.
 
+## [0.0.7-alpha] - 2026-10-24
+
+### Added
+- **Game options on SELECT** (the View button): on any game tile (Home, My games & apps) or on the
+  game page, SELECT opens Steam's dropdown menu with Play / Install / Resume, **Game info**,
+  **Change cover & artwork**, Pin / Unpin, Hide / Show on Home, Add to / Remove from favorites,
+  Achievements, Properties and Steam's own page.
+- **Change cover & artwork** opens the SteamGridDB plugin's editor for that game (capsule, wide
+  capsule, hero, logo, icon). Without that plugin installed, a notice says where to get it.
+
 ## [0.0.6-alpha] - 2026-10-24
 
 ### Fixed
@@ -83,6 +93,7 @@ Decky's **Developer → Install Plugin from ZIP**.
 First public alpha: Xbox-style Home, LB / RB tabs, My games & apps, game page, Guide-style menus,
 Xbox colors across Steam, English and Portuguese, and a Buy Me a Coffee button.
 
+[0.0.7-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.6-alpha...v0.0.7-alpha
 [0.0.6-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.5-alpha...v0.0.6-alpha
 [0.0.5-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.4-alpha...v0.0.5-alpha
 [0.0.4-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.3-alpha...v0.0.4-alpha
