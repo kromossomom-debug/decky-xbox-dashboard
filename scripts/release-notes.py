@@ -30,7 +30,10 @@ def main() -> int:
     if not match:
         print(f"No CHANGELOG.md section for {version}", file=sys.stderr)
         return 1
-    print(match.group(1).strip())
+    # GitHub turns every newline in release notes into a line break, so join the wrapped lines of
+    # each paragraph and list item back together.
+    body = re.sub(r"\n[ \t]+(?=\S)", " ", match.group(1).strip())
+    print(body)
     print(INSTALL)
     return 0
 

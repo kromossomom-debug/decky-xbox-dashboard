@@ -39,8 +39,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
         run: |
-          prerelease=""
-          if [[ "$TAG" == *alpha* || "$TAG" == *beta* ]]; then prerelease="--prerelease"; fi
           if python3 scripts/release-notes.py "$TAG" > notes.md; then
             notes=(--notes-file notes.md)
           else
@@ -51,5 +49,6 @@ jobs:
             gh release upload "$TAG" xbox-dashboard.zip --clobber
             if [[ "${notes[0]}" == "--notes-file" ]]; then gh release edit "$TAG" --notes-file notes.md; fi
           else
-            gh release create "$TAG" xbox-dashboard.zip --title "Xbox Dashboard $TAG" "${notes[@]}" $prerelease
+            # A normal release (not "pre-release"), so it shows as Latest on the repository page.
+            gh release create "$TAG" xbox-dashboard.zip --title "Xbox Dashboard $TAG" "${notes[@]}" --latest
           fi
