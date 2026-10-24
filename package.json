@@ -1,7 +1,7 @@
 {
   "name": "xbox-dashboard",
   "version": "0.0.1-alpha",
-  "description": "Deixa o Modo Jogo do SteamOS com o visual do dashboard do Xbox Series X|S",
+  "description": "The Xbox Series X|S dashboard look for SteamOS Game Mode",
   "type": "module",
   "scripts": {
     "build": "rollup -c",

@@ -1,137 +1,137 @@
 <p align="center">
-  <img src="docs/banner.svg" alt="Xbox Dashboard para Steam Deck" width="100%">
+  <img src="docs/banner.svg" alt="Xbox Dashboard for Steam Deck" width="100%">
 </p>
 
 <p align="center">
-  <b>Plugin do <a href="https://github.com/SteamDeckHomebrew/decky-loader">Decky Loader</a> que transforma o Modo Jogo do SteamOS no dashboard do Xbox Series X|S.</b><br>
-  Tela inicial com a arte do jogo em destaque, abas no topo com LB / RB, “Meus jogos e apps”, menus estilo Guia e as cores do Xbox em toda a Steam.
+  <b>A <a href="https://github.com/SteamDeckHomebrew/decky-loader">Decky Loader</a> plugin that turns SteamOS Game Mode into the Xbox Series X|S dashboard.</b><br>
+  A home screen built around the game's art, LB / RB tabs on top, “My games & apps”, Guide-style menus and Xbox colors across all of Steam.
 </p>
 
 <p align="center">
   <img alt="Decky Loader 3" src="https://img.shields.io/badge/Decky%20Loader-3.x-107C10?style=for-the-badge">
-  <img alt="SteamOS" src="https://img.shields.io/badge/SteamOS-Modo%20Jogo-1a1a1a?style=for-the-badge&logo=steamdeck&logoColor=white">
+  <img alt="SteamOS" src="https://img.shields.io/badge/SteamOS-Game%20Mode-1a1a1a?style=for-the-badge&logo=steamdeck&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-React-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
-  <img alt="Licença MIT" src="https://img.shields.io/badge/licen%C3%A7a-MIT-2a2a2a?style=for-the-badge">
-  <a href="https://buymeacoffee.com/kromossomoc"><img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-apoie-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"></a>
+  <img alt="MIT license" src="https://img.shields.io/badge/license-MIT-2a2a2a?style=for-the-badge">
+  <a href="https://buymeacoffee.com/kromossomoc"><img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black"></a>
 </p>
 
 ---
 
-## ✨ Prévia
+## ✨ Preview
 
 <p align="center">
-  <img src="docs/screenshots/home.png" alt="Tela inicial: arte do jogo em tela cheia, abas no topo e a fileira de recentes" width="100%">
+  <img src="docs/screenshots/home.png" alt="Home: full-screen game art, tabs on top and the recent games row" width="100%">
 </p>
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/screenshots/mygames.png" alt="Meus jogos e apps: menu lateral e grade de blocos"></td>
-    <td width="50%"><img src="docs/screenshots/system.png" alt="Aba Sistema com cartões grandes"></td>
+    <td width="50%"><img src="docs/screenshots/mygames.png" alt="My games & apps: side menu and tile grid"></td>
+    <td width="50%"><img src="docs/screenshots/system.png" alt="System tab with large cards"></td>
   </tr>
   <tr>
-    <td align="center"><sub><b>Meus jogos e apps</b>: filtros na lateral, grade de blocos quadrados</sub></td>
-    <td align="center"><sub><b>Sistema</b>: atalhos em cartões, como no Xbox</sub></td>
+    <td align="center"><sub><b>My games & apps</b>: filters on the side, square tile grid</sub></td>
+    <td align="center"><sub><b>System</b>: shortcuts as cards, like on Xbox</sub></td>
   </tr>
 </table>
 
-<sub>As imagens são prévias do layout, na resolução do Steam Deck (1280×800).</sub>
+<sub>Layout previews at the Steam Deck's resolution (1280×800). The plugin's interface is in Brazilian Portuguese.</sub>
 
-## 🎮 O que ele faz
-
-| | |
-|---|---|
-| 🏠 **Tela inicial Xbox** | Substitui a tela inicial da Steam. A arte do jogo em foco ocupa a tela, com o logo e “Jogado hoje · 42 h jogadas”. O primeiro bloco dos recentes é maior, e no fim da fileira ficam **Meus jogos e apps** e **Loja**. Mais abaixo vêm **Fixados** (seus Favoritos), **Instalados** e **Atalhos**. Ao descer, a arte escurece, como no Xbox. |
-| 🔀 **Abas com LB / RB** | **Início · Meus jogos e apps · Loja · Comunidade · Sistema** no topo da tela. LB e RB trocam de aba e **B** volta para o Início. |
-| 📚 **Meus jogos e apps** | Grade de blocos quadrados com menu lateral: Jogos, Apps, Instalados, Favoritos, Fora da Steam e as suas coleções. Ordem por Recentes ou A–Z. |
-| 🎨 **Cores do Xbox em tudo** | O azul da Steam vira a cor de destaque, e os cinzas azulados viram os cinzas neutros do Xbox, em menus, botões, interruptores e páginas, inclusive as que não são do plugin. |
-| 🧭 **Menus estilo Guia** | O menu Steam e o Acesso Rápido ganham um painel escuro, uma faixa na cor de destaque e o item focado em branco com texto preto. |
-| ⬜ **Foco do Series X\|S** | Borda branca com um espaço escuro em volta do bloco focado e cantos arredondados. |
-| 🔤 **Fonte estilo Segoe** | Usa Segoe UI ou Selawik se estiverem instaladas, senão Noto Sans. |
-
-### Controles
-
-| Botão | Ação |
-|---|---|
-| **A** | Joga o jogo (ou abre a página dele, se não estiver instalado) |
-| **≡** | Abre os detalhes do jogo |
-| **LB / RB** | Aba anterior / próxima aba |
-| **B** | Volta para o Início |
-
-## 📦 Instalação
+## 📦 Install
 
 <p align="center">
   <a href="https://github.com/kromossomom-debug/decky-xbox-dashboard/raw/main/xbox-dashboard.zip">
-    <img src="https://img.shields.io/badge/Baixar-xbox--dashboard.zip-107C10?style=for-the-badge&logo=steamdeck&logoColor=white" alt="Baixar xbox-dashboard.zip" height="44">
+    <img src="https://img.shields.io/badge/Download-xbox--dashboard.zip-107C10?style=for-the-badge&logo=steamdeck&logoColor=white" alt="Download xbox-dashboard.zip" height="44">
   </a>
 </p>
 
-1. Baixe o **[xbox-dashboard.zip](https://github.com/kromossomom-debug/decky-xbox-dashboard/raw/main/xbox-dashboard.zip)** no Deck (ele vai para a pasta Downloads).
-2. Abra o Acesso Rápido (`…`) → **Decky** → ⚙️ → **Geral** e ative o **Modo desenvolvedor**.
-3. Em **Desenvolvedor → Instalar plugin a partir de ZIP**, escolha o arquivo nos Downloads. Pronto.
+1. Download **[xbox-dashboard.zip](https://github.com/kromossomom-debug/decky-xbox-dashboard/raw/main/xbox-dashboard.zip)** on your Deck (it goes to your Downloads folder).
+2. Open Quick Access (`…`) → **Decky** → ⚙️ → **General** and turn on **Developer mode**.
+3. Under **Developer → Install Plugin from ZIP**, pick the file from Downloads. Done.
 
-> Precisa do [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader) instalado.
+> Requires [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader).
 
-## ⚙️ Configurações
+## 🎮 Features
 
-Tudo fica no painel do plugin, no menu de Acesso Rápido. As escolhas são salvas em
+| | |
+|---|---|
+| 🏠 **Xbox home screen** | Replaces Steam's home. The focused game's art fills the screen, with its logo and “Played today · 42 h played”. The first recent tile is larger, and the row ends with **My games & apps** and **Store**. Below come **Pinned** (your Favorites), **Installed** and **Shortcuts**. Scrolling down dims the art, just like on Xbox. |
+| 🔀 **LB / RB tabs** | **Home · My games & apps · Store · Community · System** across the top. LB and RB switch tabs, **B** goes back to Home. |
+| 📚 **My games & apps** | A square tile grid with a side menu: Games, Apps, Installed, Favorites, Non-Steam and your own collections. Sort by Recent or A–Z. |
+| 🎨 **Xbox colors everywhere** | Steam's blue becomes the accent color and its bluish greys become Xbox's neutral greys, in menus, buttons, toggles and pages, including the ones the plugin doesn't draw. |
+| 🧭 **Guide-style menus** | The Steam menu and Quick Access get a dark panel, an accent stripe and the focused item in white with black text. |
+| ⬜ **Series X\|S focus** | A white ring with a dark gap around the focused tile, and rounded corners. |
+| 🔤 **Segoe-style font** | Uses Segoe UI or Selawik when installed, otherwise Noto Sans. |
+
+### Controls
+
+| Button | Action |
+|---|---|
+| **A** | Play the game (or open its page if it isn't installed) |
+| **≡** | Open the game's details |
+| **LB / RB** | Previous / next tab |
+| **B** | Back to Home |
+
+## ⚙️ Settings
+
+Everything lives in the plugin's panel in Quick Access. Your choices are saved to
 `~/homebrew/settings/xbox-dashboard/settings.json`.
 
-| Opção | Padrão | O que muda |
+| Option (as shown in the plugin) | Default | What it does |
 |---|---|---|
-| Ativar visual Xbox | ligado | Liga ou desliga tudo de uma vez |
-| Tela inicial Xbox | ligado | Usa a tela inicial do plugin no lugar da tela da Steam |
-| Cores do Xbox em tudo | ligado | Repinta a Steam inteira com a paleta do Xbox |
-| Cor de destaque | Verde Xbox | Verde Xbox, Verde Series X\|S, Verde-limão, Azul, Vermelho, Roxo, Laranja, Rosa ou Branco |
-| Fundo da tela inicial | Arte do jogo | Arte do jogo, gradiente na cor de destaque ou escuro |
-| Foco | Borda branca | Borda branca ou na cor de destaque |
-| Arredondamento dos blocos | 6 px | De 0 a 16 px |
-| Menus estilo Guia | ligado | Menu Steam e Acesso Rápido com cara de Guia |
-| Tela inicial limpa | desligado | Esconde Novidades, Amigos e Recomendados (na tela da Steam) |
-| Fonte estilo Segoe | ligado | Troca a fonte da interface |
+| Ativar visual Xbox | on | Turns everything on or off at once |
+| Tela inicial Xbox | on | Uses the plugin's home screen instead of Steam's |
+| Cores do Xbox em tudo | on | Repaints all of Steam with the Xbox palette |
+| Cor de destaque | Xbox green | Xbox green, Series X\|S green, lime, blue, red, purple, orange, pink or white |
+| Fundo da tela inicial | Game art | Game art, an accent-color gradient or dark |
+| Foco | White ring | White ring or accent-color ring |
+| Arredondamento dos blocos | 6 px | Tile corner radius, 0 to 16 px |
+| Menus estilo Guia | on | Guide-style Steam menu and Quick Access |
+| Tela inicial limpa | off | Hides What's New, Friends and Recommended (on Steam's home) |
+| Fonte estilo Segoe | on | Swaps the interface font |
 
-> **Algo estranho?** Desligue **Cores do Xbox em tudo** ou **Tela inicial Xbox**: a Steam volta ao normal na hora, sem reiniciar.
+> **Something looks off?** Turn off **Cores do Xbox em tudo** or **Tela inicial Xbox**: Steam goes back to normal right away, no restart needed.
 
-## 🛠️ Como funciona
+## 🛠️ How it works
 
-- **Sem nomes de classe fixos.** As classes CSS da Steam mudam a cada atualização. O plugin procura os módulos de classe pelo nome das chaves (`RecentGamesContainer`, `BasicGameCarouselItem`...) com `findClassModule` e monta o CSS na hora.
-- **Telas próprias em React.** A rota `/library/home` da Steam é substituída pela tela do plugin com `routerHook.addPatch`, e “Meus jogos e apps” ganha uma rota própria. Se a tela do plugin der erro, a da Steam aparece no lugar.
-- **Repintura sem peso.** Em vez de copiar o CSS da Steam, o plugin troca as cores direto nas folhas de estilo da própria Steam, uma única vez por folha. Ao desligar, as cores originais voltam.
-- **Todas as janelas do Modo Jogo.** O tema vale para a janela principal, o Acesso Rápido e o menu Steam, e é reaplicado se a Steam recriar alguma delas.
-- **Seus dados ficam no Deck.** Jogos, coleções e imagens vêm das bibliotecas internas da Steam. Nada é enviado para fora.
+- **No hard-coded class names.** Steam's CSS class names change with every update. The plugin finds class modules by their key names (`RecentGamesContainer`, `BasicGameCarouselItem`...) with `findClassModule` and builds its CSS at runtime.
+- **Its own React screens.** Steam's `/library/home` route is swapped for the plugin's screen with `routerHook.addPatch`, and “My games & apps” gets a route of its own. If the plugin's screen ever crashes, Steam's shows up instead.
+- **Lightweight repaint.** Instead of copying Steam's CSS, the plugin swaps colors directly in Steam's own stylesheets, once per sheet. Turning it off puts the original colors back.
+- **Every Game Mode window.** The theme covers the main window, Quick Access and the Steam menu, and is reapplied if Steam recreates any of them.
+- **Your data stays on the Deck.** Games, collections and images come from Steam's internal stores. Nothing is sent anywhere.
 
 <details>
-<summary><b>Estrutura do projeto</b></summary>
+<summary><b>Project layout</b></summary>
 
 ```
 src/
-├── index.tsx        # registro do plugin, painel do Acesso Rápido, rotas
-├── Shell.tsx        # barra de abas (LB/RB) e abas Loja, Comunidade e Sistema
-├── XboxHome.tsx     # tela inicial: arte, recentes, fixados, instalados, atalhos
-├── MyGames.tsx      # Meus jogos e apps
-├── components.tsx   # blocos, cartões, fileiras e foco
-├── steam.ts         # biblioteca, imagens, abrir jogos, rotas da Steam
-├── theme.ts         # CSS do tema para as telas da Steam
-├── palette.ts       # repintura com as cores do Xbox
-├── injector.ts      # coloca o tema nas janelas do Modo Jogo
-├── classes.ts       # descobre as classes CSS atuais da Steam
-├── settings.ts      # opções e valores padrão
-└── styles.ts        # CSS das telas do plugin
-main.py              # salva as configurações
+├── index.tsx        # plugin entry, Quick Access panel, routes
+├── Shell.tsx        # tab bar (LB/RB) and the Store, Community and System tabs
+├── XboxHome.tsx     # home: art, recent, pinned, installed, shortcuts
+├── MyGames.tsx      # My games & apps
+├── components.tsx   # tiles, cards, rows and focus handling
+├── steam.ts         # library, images, launching games, Steam routes
+├── theme.ts         # theme CSS for Steam's own screens
+├── palette.ts       # Xbox color repaint
+├── injector.ts      # puts the theme into Game Mode windows
+├── classes.ts       # finds Steam's current CSS class names
+├── settings.ts      # options and defaults
+└── styles.ts        # CSS for the plugin's screens
+main.py              # saves settings
 ```
 
 </details>
 
-## 🧑‍💻 Desenvolvimento
+## 🧑‍💻 Development
 
 ```bash
 npm install
-npm run build        # gera dist/index.js
+npm run build        # outputs dist/index.js
 ```
 
-## ☕ Apoie o projeto
+## ☕ Support the project
 
-Se o plugin deixou o seu Deck com cara de Xbox e você quiser agradecer, pague um café para o autor.
-Ajuda a manter o projeto atualizado quando a Steam muda.
+If the plugin gave your Deck an Xbox makeover and you'd like to say thanks, buy the author a coffee.
+It helps keep the project updated when Steam changes.
 
 <p align="center">
   <a href="https://buymeacoffee.com/kromossomoc">
@@ -139,13 +139,13 @@ Ajuda a manter o projeto atualizado quando a Steam muda.
   </a>
 </p>
 
-Também dá para abrir a página direto do Deck: painel do plugin → **Apoie o projeto → Buy Me a Coffee**.
+You can also open the page right from the Deck: plugin panel → **Apoie o projeto → Buy Me a Coffee**.
 
-## ⚠️ Aviso
+## ⚠️ Disclaimer
 
-Projeto de fã, sem relação com a Microsoft, o Xbox ou a Valve. “Xbox” e “Xbox Series X|S” são marcas da Microsoft.
-“Steam” e “Steam Deck” são marcas da Valve. Este plugin só muda a aparência da interface no seu próprio aparelho.
+A fan project, not affiliated with Microsoft, Xbox or Valve. “Xbox” and “Xbox Series X|S” are trademarks of Microsoft.
+“Steam” and “Steam Deck” are trademarks of Valve. This plugin only changes how the interface looks on your own device.
 
-## 📄 Licença
+## 📄 License
 
 [MIT](LICENSE)
