@@ -154,7 +154,9 @@ npm run build        # outputs dist/index.js
 npm run package      # build + xbox-dashboard.zip
 ```
 
-Every push is built by GitHub Actions. Pushing a tag such as `v0.0.3-alpha` publishes a release with the ZIP attached.
+Every push is built by GitHub Actions. To release, add a section for the new version to
+[CHANGELOG.md](CHANGELOG.md), then push a tag such as `v0.0.6-alpha`: the release is published with
+the ZIP attached and that section as its notes.
 
 ## ☕ Support the project
 
@@ -173,6 +175,10 @@ You can also open the page right from the Deck: plugin panel → **Support the p
 
 A fan project, not affiliated with Microsoft, Xbox or Valve. “Xbox” and “Xbox Series X|S” are trademarks of Microsoft.
 “Steam” and “Steam Deck” are trademarks of Valve. This plugin only changes how the interface looks on your own device.
+
+## 📝 Changelog
+
+What changed in each version: [CHANGELOG.md](CHANGELOG.md).
 
 ## 📄 License
 
