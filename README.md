@@ -59,25 +59,17 @@
 
 ## 📦 Instalação
 
+<p align="center">
+  <a href="https://github.com/kromossomom-debug/decky-xbox-dashboard/raw/main/xbox-dashboard.zip">
+    <img src="https://img.shields.io/badge/Baixar-xbox--dashboard.zip-107C10?style=for-the-badge&logo=steamdeck&logoColor=white" alt="Baixar xbox-dashboard.zip" height="44">
+  </a>
+</p>
+
+1. Baixe o **[xbox-dashboard.zip](https://github.com/kromossomom-debug/decky-xbox-dashboard/raw/main/xbox-dashboard.zip)** no Deck (ele vai para a pasta Downloads).
+2. Abra o Acesso Rápido (`…`) → **Decky** → ⚙️ → **Geral** e ative o **Modo desenvolvedor**.
+3. Em **Desenvolvedor → Instalar plugin a partir de ZIP**, escolha o arquivo nos Downloads. Pronto.
+
 > Precisa do [Decky Loader](https://github.com/SteamDeckHomebrew/decky-loader) instalado.
-
-**Pelo ZIP (mais fácil)**
-
-1. Baixe o `xbox-dashboard.zip` na aba **Releases** deste repositório.
-2. No Steam Deck, abra o Acesso Rápido (`…`) → **Decky** → ⚙️ → **Geral** e ative o **Modo desenvolvedor**.
-3. Vá em **Desenvolvedor → Instalar plugin a partir de ZIP** e escolha o arquivo.
-
-**Pelo código-fonte (Modo Desktop)**
-
-```bash
-git clone https://github.com/kromossomom-debug/decky-xbox-dashboard.git xbox-dashboard
-cd xbox-dashboard
-npm install
-npm run build
-./install.sh
-```
-
-O `install.sh` copia o plugin para `~/homebrew/plugins/xbox-dashboard` (pede a senha do sudo) e reinicia o Decky.
 
 ## ⚙️ Configurações
 
@@ -134,10 +126,7 @@ main.py              # salva as configurações
 ```bash
 npm install
 npm run build        # gera dist/index.js
-npm run typecheck    # checa os tipos
 ```
-
-Para testar, rode `./install.sh` depois de cada build ou instale o ZIP pelo Decky.
 
 ## ☕ Apoie o projeto
 
