@@ -3,6 +3,20 @@
 All notable changes to Xbox Dashboard. Versions are alphas: install the ZIP from each release with
 Decky's **Developer → Install Plugin from ZIP**.
 
+## [0.0.8-alpha] - 2026-10-24
+
+### Fixed
+- **The Steam menu and Quick Access never got the theme in Game Mode.** They are separate windows
+  that don't show up where the plugin was looking; it now finds them through Steam's controller
+  navigation, so the Guide style, the Xbox colors and the menu effects reach both.
+- **The big first tile on Home shows the game's cover**, not its wide banner cropped into a square.
+
+### Changed
+- **Steam menu looks like the Xbox Guide**: a “Guide” heading with an accent underline, dark panel
+  with soft corners, the current page marked with an accent bar and icon, and the selected item
+  filled with the accent color and a white ring. Steam's 10% zoom on the selected item is off, so it
+  stays inside the panel.
+
 ## [0.0.7-alpha] - 2026-10-24
 
 ### Added
@@ -93,6 +107,7 @@ Decky's **Developer → Install Plugin from ZIP**.
 First public alpha: Xbox-style Home, LB / RB tabs, My games & apps, game page, Guide-style menus,
 Xbox colors across Steam, English and Portuguese, and a Buy Me a Coffee button.
 
+[0.0.8-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.7-alpha...v0.0.8-alpha
 [0.0.7-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.6-alpha...v0.0.7-alpha
 [0.0.6-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.5-alpha...v0.0.6-alpha
 [0.0.5-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.4-alpha...v0.0.5-alpha

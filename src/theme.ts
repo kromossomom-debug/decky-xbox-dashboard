@@ -1,4 +1,5 @@
 import { Selectors } from "./classes";
+import { t } from "./i18n";
 import { Settings, accentColor } from "./settings";
 
 /**
@@ -176,40 +177,50 @@ ${mainMenu.Menu} {
   background:
     radial-gradient(120% 55% at 0% 0%, color-mix(in srgb, var(--xbd-accent) 22%, transparent) 0%, transparent 62%),
     linear-gradient(180deg, rgba(30,30,30,0.98), rgba(14,14,14,0.98)) !important;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 0 calc(var(--xbd-radius) * 2) calc(var(--xbd-radius) * 2) 0;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0 min(calc(var(--xbd-radius) * 1.5), 16px) min(calc(var(--xbd-radius) * 1.5), 16px) 0;
   box-shadow: 12px 0 48px rgba(0,0,0,0.7);
 }
+/* A "Guide" heading over the items, underlined in the accent color. */
 ${mainMenu.Menu}::before {
-  content: "";
+  content: "${t.guideTitle}";
   display: block;
-  height: 4px;
-  margin: 0 0 6px;
-  background: var(--xbd-accent);
-  border-radius: 0 calc(var(--xbd-radius) * 2) 0 0;
+  margin: 0 18px 12px;
+  padding-bottom: 10px;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-bottom: 3px solid var(--xbd-accent);
 }
 ${mainMenu.Item} {
-  border-radius: var(--xbd-radius) !important;
-  margin: 2px 8px !important;
-  transition: background-color 120ms ease, transform 140ms ease;
+  border-radius: min(var(--xbd-radius), 10px) !important;
+  margin: 2px 10px !important;
+  width: calc(100% - 20px) !important;
+  box-sizing: border-box !important;
+  /* Steam zooms the selected item by 10%, which pushes it past the panel; the Guide doesn't zoom. */
+  transform: none !important;
+  transition: background-color 120ms ease;
 }
+${mainMenu.Item}${mainMenu.Active}:not(.gpfocus) {
+  background: rgba(255,255,255,0.06) !important;
+  box-shadow: inset 4px 0 0 var(--xbd-accent);
+}
+${mainMenu.Item}${mainMenu.Active}:not(.gpfocus) ${mainMenu.ItemIcon} {
+  color: var(--xbd-accent) !important;
+}
+/* Selected item: filled with the accent (Xbox green) and a white ring, like the power menu. */
 ${mainMenu.Item}.gpfocus, ${mainMenu.ItemOuter}.gpfocus ${mainMenu.Item} {
-  background: #fff !important;
-  color: #000 !important;
-  transform: translateX(4px);
+  background: var(--xbd-accent) !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.9);
+}
+${mainMenu.Item}.gpfocus *, ${mainMenu.ItemOuter}.gpfocus ${mainMenu.Item} * {
+  color: #fff !important;
+  fill: #fff !important;
 }
 ${mainMenu.Item}.gpfocus ${mainMenu.ItemLabel}, ${mainMenu.ItemOuter}.gpfocus ${mainMenu.ItemLabel} {
   font-weight: 700 !important;
-}
-${mainMenu.Item}${mainMenu.Active} ${mainMenu.ItemIcon} {
-  color: var(--xbd-accent) !important;
-}
-${mainMenu.Item}.gpfocus *, ${mainMenu.ItemOuter}.gpfocus ${mainMenu.Item} * {
-  color: #000 !important;
-  fill: #000 !important;
-}
-${mainMenu.Item}${mainMenu.Active} {
-  box-shadow: inset 4px 0 0 var(--xbd-accent);
 }
 ${mainMenu.ActiveDot} {
   display: none !important;

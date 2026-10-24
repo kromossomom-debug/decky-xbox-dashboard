@@ -1,6 +1,6 @@
 {
   "name": "xbox-dashboard",
-  "version": "0.0.7-alpha",
+  "version": "0.0.8-alpha",
   "description": "The Xbox Series X|S dashboard look for SteamOS Game Mode",
   "type": "module",
   "scripts": {

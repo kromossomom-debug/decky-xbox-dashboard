@@ -87,7 +87,6 @@ const HomeRows = memo(function HomeRows({ recents, rows, shortcuts, goTab, onTop
             key={app.appid}
             app={app}
             size={i === 0 ? "big" : "normal"}
-            art={i === 0 ? "hero" : "portrait"}
             preferredFocus={i === 0}
             onFocus={onTopRow}
           />
