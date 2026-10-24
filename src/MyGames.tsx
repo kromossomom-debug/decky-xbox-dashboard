@@ -3,6 +3,7 @@ import { ReactNode, useMemo, useState } from "react";
 import { MdApps, MdCheckCircle, MdComputer, MdFolder, MdSort, MdSportsEsports, MdStar } from "react-icons/md";
 
 import { FOCUSED_CLASS, GameTile } from "./components";
+import { t } from "./i18n";
 import {
   App,
   byName,
@@ -41,7 +42,7 @@ function SideItem({
       focusClassName={FOCUSED_CLASS}
       noFocusRing
       onActivate={onActivate}
-      onOKActionDescription="Selecionar"
+      onOKActionDescription={t.select}
     >
       <span className="xbd-side-icon">{icon}</span>
       <span className="xbd-side-label">{label}</span>
@@ -52,11 +53,11 @@ function SideItem({
 export function GamesTab() {
   const views = useMemo<View[]>(
     () => [
-      { id: "games", label: "Jogos", icon: <MdSportsEsports />, apps: gameApps },
-      { id: "apps", label: "Apps", icon: <MdApps />, apps: softwareApps },
-      { id: "installed", label: "Instalados", icon: <MdCheckCircle />, apps: installedApps },
-      { id: "favorites", label: "Favoritos", icon: <MdStar />, apps: favoriteApps },
-      { id: "nonsteam", label: "Fora da Steam", icon: <MdComputer />, apps: nonSteamApps },
+      { id: "games", label: t.viewGames, icon: <MdSportsEsports />, apps: gameApps },
+      { id: "apps", label: t.viewApps, icon: <MdApps />, apps: softwareApps },
+      { id: "installed", label: t.viewInstalled, icon: <MdCheckCircle />, apps: installedApps },
+      { id: "favorites", label: t.viewFavorites, icon: <MdStar />, apps: favoriteApps },
+      { id: "nonsteam", label: t.viewNonSteam, icon: <MdComputer />, apps: nonSteamApps },
       ...userCollections().map((c) => ({ id: `c:${c.id}`, label: c.name, icon: <MdFolder />, apps: c.apps })),
     ],
     [],
@@ -75,7 +76,7 @@ export function GamesTab() {
         <div className="xbd-side-sep" />
         <SideItem
           icon={<MdSort />}
-          label={sort === "recent" ? "Ordenar: Recentes" : "Ordenar: A–Z"}
+          label={sort === "recent" ? t.sortRecent : t.sortName}
           onActivate={() => setSort(sort === "recent" ? "name" : "recent")}
         />
       </Focusable>
@@ -84,7 +85,7 @@ export function GamesTab() {
           {view.label} <span className="xbd-mg-count">{list.length}</span>
         </div>
         {list.length === 0 ? (
-          <div className="xbd-mg-empty">Nada por aqui ainda.</div>
+          <div className="xbd-mg-empty">{t.empty}</div>
         ) : (
           <Focusable className="xbd-grid" flow-children="grid" key={`${view.id}-${sort}`}>
             {list.map((app, i) => (

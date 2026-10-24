@@ -5,6 +5,7 @@ import { IoLibrary } from "react-icons/io5";
 import { MdDownload, MdPhotoLibrary, MdSearch, MdSettings, MdStore } from "react-icons/md";
 
 import { ActionTile, Art, GameTile, Row } from "./components";
+import { t } from "./i18n";
 import {
   App,
   byRecent,
@@ -77,12 +78,12 @@ const HomeRows = memo(function HomeRows({ recents, pins, installed, goTab, onTop
             onFocus={onTopRow}
           />
         ))}
-        <ActionTile icon={<IoLibrary />} label="Meus jogos e apps" accent onFocus={() => onTopRow()} onActivate={() => goTab("games")} />
-        <ActionTile icon={<MdStore />} label="Loja" onFocus={() => onTopRow()} onActivate={() => goTab("store")} />
+        <ActionTile icon={<IoLibrary />} label={t.tabGames} accent onFocus={() => onTopRow()} onActivate={() => goTab("games")} />
+        <ActionTile icon={<MdStore />} label={t.tabStore} onFocus={() => onTopRow()} onActivate={() => goTab("store")} />
       </Row>
 
       {pins.length > 0 && (
-        <Row title="Fixados">
+        <Row title={t.rowPinned}>
           {pins.map((app) => (
             <GameTile key={app.appid} app={app} size="small" onFocus={(_a, el) => onLowerRow(el)} />
           ))}
@@ -90,22 +91,22 @@ const HomeRows = memo(function HomeRows({ recents, pins, installed, goTab, onTop
       )}
 
       {installed.length > 0 && (
-        <Row title="Instalados">
+        <Row title={t.rowInstalled}>
           {installed.map((app) => (
             <GameTile key={app.appid} app={app} size="small" onFocus={(_a, el) => onLowerRow(el)} />
           ))}
         </Row>
       )}
 
-      <Row title="Atalhos">
+      <Row title={t.rowShortcuts}>
         {[
-          { icon: <IoLibrary />, label: "Meus jogos e apps", go: () => goTab("games") },
-          { icon: <FaSteam />, label: "Biblioteca Steam", go: () => Navigation.Navigate(ROUTES.library) },
-          { icon: <MdStore />, label: "Loja", go: () => goTab("store") },
-          { icon: <MdDownload />, label: "Downloads", go: () => Navigation.Navigate(ROUTES.downloads) },
-          { icon: <MdPhotoLibrary />, label: "Capturas e mídia", go: () => Navigation.Navigate(ROUTES.media) },
-          { icon: <MdSearch />, label: "Pesquisar", go: () => Navigation.Navigate(ROUTES.search) },
-          { icon: <MdSettings />, label: "Configurações", go: () => Navigation.Navigate(ROUTES.settings) },
+          { icon: <IoLibrary />, label: t.tabGames, go: () => goTab("games") },
+          { icon: <FaSteam />, label: t.steamLibrary, go: () => Navigation.Navigate(ROUTES.library) },
+          { icon: <MdStore />, label: t.tabStore, go: () => goTab("store") },
+          { icon: <MdDownload />, label: t.downloads, go: () => Navigation.Navigate(ROUTES.downloads) },
+          { icon: <MdPhotoLibrary />, label: t.media, go: () => Navigation.Navigate(ROUTES.media) },
+          { icon: <MdSearch />, label: t.search, go: () => Navigation.Navigate(ROUTES.search) },
+          { icon: <MdSettings />, label: t.settings, go: () => Navigation.Navigate(ROUTES.settings) },
         ].map((s) => (
           <ActionTile key={s.label} icon={s.icon} label={s.label} size="small" onFocus={onLowerRow} onActivate={s.go} />
         ))}

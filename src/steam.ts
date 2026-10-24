@@ -1,5 +1,7 @@
 import { Navigation, Router } from "@decky/ui";
 
+import { t } from "./i18n";
+
 /** The subset of Steam's SteamAppOverview this plugin reads. */
 export interface App {
   appid: number;
@@ -152,19 +154,19 @@ export function persona(): { name: string; avatar?: string } {
 }
 
 export function lastPlayedText(app: App): string {
-  const t = app.rt_last_time_played ?? 0;
-  if (!t) return app.installed ? "Instalado" : "Não instalado";
-  const days = Math.floor((Date.now() / 1000 - t) / 86400);
-  if (days <= 0) return "Jogado hoje";
-  if (days === 1) return "Jogado ontem";
-  if (days < 30) return `Jogado há ${days} dias`;
+  const last = app.rt_last_time_played ?? 0;
+  if (!last) return app.installed ? t.installed : t.notInstalled;
+  const days = Math.floor((Date.now() / 1000 - last) / 86400);
+  if (days <= 0) return t.playedToday;
+  if (days === 1) return t.playedYesterday;
+  if (days < 30) return t.playedDaysAgo(days);
   const months = Math.floor(days / 30);
-  if (months < 12) return months === 1 ? "Jogado há 1 mês" : `Jogado há ${months} meses`;
-  return "Jogado há mais de um ano";
+  if (months < 12) return t.playedMonthsAgo(months);
+  return t.playedOverAYear;
 }
 
 export function playtimeText(app: App): string {
   const m = app.minutes_playtime_forever ?? 0;
-  if (m < 60) return m > 0 ? `${m} min jogados` : "";
-  return `${Math.round(m / 60)} h jogadas`;
+  if (m < 60) return m > 0 ? t.minutesPlayed(m) : "";
+  return t.hoursPlayed(Math.round(m / 60));
 }

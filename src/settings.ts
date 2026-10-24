@@ -1,3 +1,5 @@
+import { t } from "./i18n";
+
 export type BackgroundMode = "art" | "gradient" | "dark";
 export type FocusStyle = "white" | "accent";
 
@@ -23,15 +25,15 @@ export interface Settings {
 }
 
 export const ACCENTS: { id: string; label: string; color: string }[] = [
-  { id: "xbox", label: "Verde Xbox", color: "#107C10" },
-  { id: "series", label: "Verde Series X|S", color: "#3DB83D" },
-  { id: "lime", label: "Verde-limão", color: "#9BF00B" },
-  { id: "blue", label: "Azul", color: "#0078D4" },
-  { id: "red", label: "Vermelho", color: "#E81123" },
-  { id: "purple", label: "Roxo", color: "#8764B8" },
-  { id: "orange", label: "Laranja", color: "#F7630C" },
-  { id: "pink", label: "Rosa", color: "#E3008C" },
-  { id: "white", label: "Branco", color: "#E6E6E6" },
+  { id: "xbox", label: t.accentXbox, color: "#107C10" },
+  { id: "series", label: t.accentSeries, color: "#3DB83D" },
+  { id: "lime", label: t.accentLime, color: "#9BF00B" },
+  { id: "blue", label: t.accentBlue, color: "#0078D4" },
+  { id: "red", label: t.accentRed, color: "#E81123" },
+  { id: "purple", label: t.accentPurple, color: "#8764B8" },
+  { id: "orange", label: t.accentOrange, color: "#F7630C" },
+  { id: "pink", label: t.accentPink, color: "#E3008C" },
+  { id: "white", label: t.accentWhite, color: "#E6E6E6" },
 ];
 
 export const DEFAULT_SETTINGS: Settings = {

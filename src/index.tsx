@@ -14,6 +14,7 @@ import { FaCoffee, FaXbox } from "react-icons/fa";
 
 import { resolveClasses, ResolvedClasses } from "./classes";
 import { Fallback } from "./components";
+import { t } from "./i18n";
 import { applyCss, removeCss } from "./injector";
 import { ACCENTS, BackgroundMode, accentColor, DEFAULT_SETTINGS, FocusStyle, Settings, withDefaults } from "./settings";
 import { MY_GAMES_ROUTE, openDonate } from "./steam";
@@ -98,42 +99,42 @@ function Content() {
       <PanelSection>
         <PanelSectionRow>
           <ToggleField
-            label="Ativar visual Xbox"
-            description="Aplica o layout do dashboard do Xbox Series X|S no Modo Jogo."
+            label={t.enableLabel}
+            description={t.enableDesc}
             checked={st.enabled}
             onChange={(enabled) => change({ enabled })}
           />
         </PanelSectionRow>
       </PanelSection>
 
-      <PanelSection title="Telas Xbox">
+      <PanelSection title={t.screensSection}>
         <PanelSectionRow>
           <ToggleField
-            label="Tela inicial Xbox"
-            description="Troca a tela inicial da Steam por uma igual à do Xbox: arte do jogo, Recentes, Fixados e Instalados."
+            label={t.homeLabel}
+            description={t.homeDesc}
             checked={st.xboxHome}
             onChange={(xboxHome) => change({ xboxHome })}
           />
         </PanelSectionRow>
         <PanelSectionRow>
           <ButtonItem layout="below" onClick={() => Navigation.Navigate(MY_GAMES_ROUTE)}>
-            Abrir Meus jogos e apps
+            {t.openMyGames}
           </ButtonItem>
         </PanelSectionRow>
       </PanelSection>
 
-      <PanelSection title="Aparência">
+      <PanelSection title={t.lookSection}>
         <PanelSectionRow>
           <ToggleField
-            label="Cores do Xbox em tudo"
-            description="Troca o azul da Steam pela cor de destaque e os cinzas azulados pelos cinzas neutros do Xbox, em menus, botões e páginas."
+            label={t.paletteLabel}
+            description={t.paletteDesc}
             checked={st.palette}
             onChange={(palette) => change({ palette })}
           />
         </PanelSectionRow>
         <PanelSectionRow>
           <DropdownItem
-            label="Cor de destaque"
+            label={t.accentLabel}
             rgOptions={ACCENTS.map((a) => ({ data: a.id, label: a.label }))}
             selectedOption={st.accent}
             onChange={(o) => change({ accent: o.data })}
@@ -141,11 +142,11 @@ function Content() {
         </PanelSectionRow>
         <PanelSectionRow>
           <DropdownItem
-            label="Fundo da tela inicial"
+            label={t.backgroundLabel}
             rgOptions={[
-              { data: "art", label: "Arte do jogo (Series X|S)" },
-              { data: "gradient", label: "Gradiente na cor de destaque" },
-              { data: "dark", label: "Escuro" },
+              { data: "art", label: t.bgArt },
+              { data: "gradient", label: t.bgGradient },
+              { data: "dark", label: t.bgDark },
             ]}
             selectedOption={st.background}
             onChange={(o) => change({ background: o.data as BackgroundMode })}
@@ -153,10 +154,10 @@ function Content() {
         </PanelSectionRow>
         <PanelSectionRow>
           <DropdownItem
-            label="Foco"
+            label={t.focusLabel}
             rgOptions={[
-              { data: "white", label: "Borda branca (Series X|S)" },
-              { data: "accent", label: "Borda na cor de destaque" },
+              { data: "white", label: t.focusWhite },
+              { data: "accent", label: t.focusAccent },
             ]}
             selectedOption={st.focus}
             onChange={(o) => change({ focus: o.data as FocusStyle })}
@@ -164,8 +165,8 @@ function Content() {
         </PanelSectionRow>
         <PanelSectionRow>
           <SliderField
-            label="Espaço para a arte"
-            description="Só para a tela inicial da Steam (com a Tela inicial Xbox desligada)."
+            label={t.heroSpaceLabel}
+            description={t.heroSpaceDesc}
             value={st.heroSpace}
             min={0}
             max={40}
@@ -177,7 +178,7 @@ function Content() {
         </PanelSectionRow>
         <PanelSectionRow>
           <SliderField
-            label="Arredondamento dos blocos"
+            label={t.radiusLabel}
             value={st.radius}
             min={0}
             max={16}
@@ -189,41 +190,41 @@ function Content() {
         </PanelSectionRow>
       </PanelSection>
 
-      <PanelSection title="Layout">
+      <PanelSection title={t.layoutSection}>
         <PanelSectionRow>
           <ToggleField
-            label="Menus estilo Guia Xbox"
-            description="Menu Steam e Acesso Rápido com painel escuro e destaque colorido."
+            label={t.guideLabel}
+            description={t.guideDesc}
             checked={st.guide}
             onChange={(guide) => change({ guide })}
           />
         </PanelSectionRow>
         <PanelSectionRow>
           <ToggleField
-            label="Tela inicial limpa"
-            description="Esconde Novidades, Amigos e Recomendados abaixo dos jogos recentes."
+            label={t.cleanHomeLabel}
+            description={t.cleanHomeDesc}
             checked={st.hideShelves}
             onChange={(hideShelves) => change({ hideShelves })}
           />
         </PanelSectionRow>
         <PanelSectionRow>
           <ToggleField
-            label="Fonte estilo Segoe"
+            label={t.fontLabel}
             checked={st.font}
             onChange={(font) => change({ font })}
           />
         </PanelSectionRow>
         <PanelSectionRow>
           <ButtonItem layout="below" onClick={() => change({ ...DEFAULT_SETTINGS })}>
-            Restaurar padrões
+            {t.resetDefaults}
           </ButtonItem>
         </PanelSectionRow>
       </PanelSection>
 
-      <PanelSection title="Apoie o projeto">
+      <PanelSection title={t.supportSection}>
         <PanelSectionRow>
           <div style={{ fontSize: "12px", opacity: 0.8, marginBottom: "6px" }}>
-            Curtiu o plugin? Pague um café para o autor e ajude a manter as atualizações.
+            {t.supportText}
           </div>
         </PanelSectionRow>
         <PanelSectionRow>

@@ -5,6 +5,7 @@ import { MdChat, MdDownload, MdGroup, MdLocalOffer, MdMail, MdPhotoLibrary, MdPo
 
 import { Card, FOCUSED_CLASS, useFocusReveal } from "./components";
 import { GamesTab } from "./MyGames";
+import { t } from "./i18n";
 import { ROUTES, openStore, persona } from "./steam";
 import { XBOX_CSS } from "./styles";
 import { HomeTab } from "./XboxHome";
@@ -12,11 +13,11 @@ import { HomeTab } from "./XboxHome";
 export type TabId = "home" | "games" | "store" | "community" | "system";
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: "home", label: "Início" },
-  { id: "games", label: "Meus jogos e apps" },
-  { id: "store", label: "Loja" },
-  { id: "community", label: "Comunidade" },
-  { id: "system", label: "Sistema" },
+  { id: "home", label: t.tabHome },
+  { id: "games", label: t.tabGames },
+  { id: "store", label: t.tabStore },
+  { id: "community", label: t.tabCommunity },
+  { id: "system", label: t.tabSystem },
 ];
 
 interface CardDef {
@@ -30,24 +31,24 @@ const steamWeb = (url: string) => () => Navigation.NavigateToSteamWeb(url);
 
 const CARD_TABS: Partial<Record<TabId, CardDef[]>> = {
   store: [
-    { icon: <MdStore />, title: "Loja Steam", description: "Destaques, lançamentos e recomendações", go: () => openStore() },
-    { icon: <MdLocalOffer />, title: "Ofertas", description: "Jogos em promoção agora", go: () => openStore("specials") },
-    { icon: <MdFavorite />, title: "Lista de desejos", description: "O que você está de olho", go: () => openStore("wishlist") },
-    { icon: <MdSearch />, title: "Pesquisar", description: "Jogos, apps e amigos", go: () => Navigation.Navigate(ROUTES.search) },
-    { icon: <MdDownload />, title: "Downloads", description: "Fila e atualizações", go: () => Navigation.Navigate(ROUTES.downloads) },
+    { icon: <MdStore />, title: t.storeTitle, description: t.storeDesc, go: () => openStore() },
+    { icon: <MdLocalOffer />, title: t.specialsTitle, description: t.specialsDesc, go: () => openStore("specials") },
+    { icon: <MdFavorite />, title: t.wishlistTitle, description: t.wishlistDesc, go: () => openStore("wishlist") },
+    { icon: <MdSearch />, title: t.search, description: t.searchDesc, go: () => Navigation.Navigate(ROUTES.search) },
+    { icon: <MdDownload />, title: t.downloads, description: t.downloadsDesc, go: () => Navigation.Navigate(ROUTES.downloads) },
   ],
   community: [
-    { icon: <MdChat />, title: "Amigos e chat", description: "Conversas e quem está on-line", go: () => Navigation.NavigateToChat() },
-    { icon: <MdMail />, title: "Convites", description: "Convites de amizade e de grupos", go: () => Navigation.NavigateToInvites() },
-    { icon: <MdGroup />, title: "Comunidade Steam", description: "Atividade, guias e discussões", go: steamWeb("https://steamcommunity.com/") },
-    { icon: <MdPublic />, title: "Meu perfil", description: "Seu perfil na Steam", go: steamWeb("https://steamcommunity.com/my/") },
+    { icon: <MdChat />, title: t.chatTitle, description: t.chatDesc, go: () => Navigation.NavigateToChat() },
+    { icon: <MdMail />, title: t.invitesTitle, description: t.invitesDesc, go: () => Navigation.NavigateToInvites() },
+    { icon: <MdGroup />, title: t.communityTitle, description: t.communityDesc, go: steamWeb("https://steamcommunity.com/") },
+    { icon: <MdPublic />, title: t.profileTitle, description: t.profileDesc, go: steamWeb("https://steamcommunity.com/my/") },
   ],
   system: [
-    { icon: <MdSettings />, title: "Configurações", description: "Sistema, tela, áudio e controles", go: () => Navigation.Navigate(ROUTES.settings) },
-    { icon: <MdPhotoLibrary />, title: "Capturas e mídia", description: "Capturas de tela e gravações", go: () => Navigation.Navigate(ROUTES.media) },
-    { icon: <FaSteam />, title: "Biblioteca Steam", description: "A biblioteca original da Steam", go: () => Navigation.Navigate(ROUTES.library) },
-    { icon: <MdTune />, title: "Acesso rápido", description: "Desempenho, brilho, plugins", go: () => Navigation.OpenQuickAccessMenu() },
-    { icon: <MdPowerSettingsNew />, title: "Energia", description: "Suspender, reiniciar ou desligar", go: () => Navigation.OpenPowerMenu() },
+    { icon: <MdSettings />, title: t.settings, description: t.settingsDesc, go: () => Navigation.Navigate(ROUTES.settings) },
+    { icon: <MdPhotoLibrary />, title: t.media, description: t.mediaDesc, go: () => Navigation.Navigate(ROUTES.media) },
+    { icon: <FaSteam />, title: t.steamLibrary, description: t.libraryDesc, go: () => Navigation.Navigate(ROUTES.library) },
+    { icon: <MdTune />, title: t.quickAccessTitle, description: t.quickAccessDesc, go: () => Navigation.OpenQuickAccessMenu() },
+    { icon: <MdPowerSettingsNew />, title: t.powerTitle, description: t.powerDesc, go: () => Navigation.OpenPowerMenu() },
   ],
 };
 
@@ -135,10 +136,10 @@ export function XboxShell({ initialTab = "home" }: { initialTab?: TabId }) {
         {...({ navRef: contentNav } as any)}
         onButtonDown={onButtonDown}
         onCancelButton={tab === "home" ? undefined : () => setTab("home")}
-        onCancelActionDescription={tab === "home" ? undefined : "Início"}
+        onCancelActionDescription={tab === "home" ? undefined : t.tabHome}
         actionDescriptionMap={{
-          [GamepadButton.BUMPER_LEFT]: "Aba anterior",
-          [GamepadButton.BUMPER_RIGHT]: "Próxima aba",
+          [GamepadButton.BUMPER_LEFT]: t.prevTab,
+          [GamepadButton.BUMPER_RIGHT]: t.nextTab,
         }}
       >
         {tab === "home" && <HomeTab goTab={setTab} />}

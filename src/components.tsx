@@ -1,6 +1,7 @@
 import { Focusable, NavEntryPositionPreferences } from "@decky/ui";
 import { Component, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 
+import { t } from "./i18n";
 import { APP_TYPE_SHORTCUT, App, heroUrls, launch, openDetails, portraitUrls, runningAppId } from "./steam";
 
 export const FOCUSED_CLASS = "xbd-focused";
@@ -95,7 +96,7 @@ export function Tile(p: TileProps) {
       onActivate={p.onActivate}
       onOKActionDescription={p.okLabel}
       onOptionsButton={p.onOptions}
-      onOptionsActionDescription={p.onOptions ? "Detalhes" : undefined}
+      onOptionsActionDescription={p.onOptions ? t.details : undefined}
     >
       <div className="xbd-tile-art">{p.children}</div>
       {p.badge}
@@ -127,9 +128,9 @@ export function GameTile({
       onFocus={(el) => onFocus?.(app, el)}
       onActivate={() => launch(app)}
       onOptions={() => openDetails(app)}
-      okLabel={running ? "Voltar ao jogo" : playable ? "Jogar" : "Abrir"}
+      okLabel={running ? t.resume : playable ? t.play : t.open}
       className={playable ? "" : "xbd-not-installed"}
-      badge={running ? <div className="xbd-badge">Em execução</div> : undefined}
+      badge={running ? <div className="xbd-badge">{t.running}</div> : undefined}
     >
       <Art
         className="xbd-cover"
@@ -161,7 +162,7 @@ export function ActionTile({
       label={label}
       onActivate={onActivate}
       onFocus={onFocus}
-      okLabel="Abrir"
+      okLabel={t.open}
       className={accent ? "xbd-tile-accent" : "xbd-tile-action"}
     >
       <div className="xbd-action">
@@ -195,7 +196,7 @@ export function Card({
       noFocusRing
       preferredFocus={preferredFocus}
       onActivate={onActivate}
-      onOKActionDescription="Abrir"
+      onOKActionDescription={t.open}
     >
       <div className="xbd-card-icon">{icon}</div>
       <div className="xbd-card-text">

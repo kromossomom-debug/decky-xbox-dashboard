@@ -34,7 +34,7 @@
   </tr>
 </table>
 
-<sub>Layout previews at the Steam Deck's resolution (1280×800). The plugin's interface is in Brazilian Portuguese.</sub>
+<sub>Layout previews at the Steam Deck's resolution (1280×800), shown with Steam in Portuguese.</sub>
 
 ## 📦 Install
 
@@ -61,6 +61,7 @@
 | 🧭 **Guide-style menus** | The Steam menu and Quick Access get a dark panel, an accent stripe and the focused item in white with black text. |
 | ⬜ **Series X\|S focus** | A white ring with a dark gap around the focused tile, and rounded corners. |
 | 🔤 **Segoe-style font** | Uses Segoe UI or Selawik when installed, otherwise Noto Sans. |
+| 🌐 **English & Portuguese** | Follows Steam's language: Portuguese when Steam is in Portuguese, English otherwise. |
 
 ### Controls
 
@@ -76,20 +77,20 @@
 Everything lives in the plugin's panel in Quick Access. Your choices are saved to
 `~/homebrew/settings/xbox-dashboard/settings.json`.
 
-| Option (as shown in the plugin) | Default | What it does |
+| Option | Default | What it does |
 |---|---|---|
-| Ativar visual Xbox | on | Turns everything on or off at once |
-| Tela inicial Xbox | on | Uses the plugin's home screen instead of Steam's |
-| Cores do Xbox em tudo | on | Repaints all of Steam with the Xbox palette |
-| Cor de destaque | Xbox green | Xbox green, Series X\|S green, lime, blue, red, purple, orange, pink or white |
-| Fundo da tela inicial | Game art | Game art, an accent-color gradient or dark |
-| Foco | White ring | White ring or accent-color ring |
-| Arredondamento dos blocos | 6 px | Tile corner radius, 0 to 16 px |
-| Menus estilo Guia | on | Guide-style Steam menu and Quick Access |
-| Tela inicial limpa | off | Hides What's New, Friends and Recommended (on Steam's home) |
-| Fonte estilo Segoe | on | Swaps the interface font |
+| Enable Xbox look | on | Turns everything on or off at once |
+| Xbox home screen | on | Uses the plugin's home screen instead of Steam's |
+| Xbox colors everywhere | on | Repaints all of Steam with the Xbox palette |
+| Accent color | Xbox green | Xbox green, Series X\|S green, lime, blue, red, purple, orange, pink or white |
+| Home background | Game art | Game art, an accent-color gradient or dark |
+| Focus | White ring | White ring or accent-color ring |
+| Tile corner radius | 6 px | 0 to 16 px |
+| Xbox Guide-style menus | on | Guide-style Steam menu and Quick Access |
+| Clean home screen | off | Hides What's New, Friends and Recommended (on Steam's home) |
+| Segoe-style font | on | Swaps the interface font |
 
-> **Something looks off?** Turn off **Cores do Xbox em tudo** or **Tela inicial Xbox**: Steam goes back to normal right away, no restart needed.
+> **Something looks off?** Turn off **Xbox colors everywhere** or **Xbox home screen**: Steam goes back to normal right away, no restart needed.
 
 ## 🛠️ How it works
 
@@ -115,6 +116,7 @@ src/
 ├── injector.ts      # puts the theme into Game Mode windows
 ├── classes.ts       # finds Steam's current CSS class names
 ├── settings.ts      # options and defaults
+├── i18n.ts          # English and Portuguese text
 └── styles.ts        # CSS for the plugin's screens
 main.py              # saves settings
 ```
@@ -139,7 +141,7 @@ It helps keep the project updated when Steam changes.
   </a>
 </p>
 
-You can also open the page right from the Deck: plugin panel → **Apoie o projeto → Buy Me a Coffee**.
+You can also open the page right from the Deck: plugin panel → **Support the project → Buy Me a Coffee**.
 
 ## ⚠️ Disclaimer
 
