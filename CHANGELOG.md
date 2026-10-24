@@ -3,6 +3,22 @@
 All notable changes to Xbox Dashboard. Versions are alphas: install the ZIP from each release with
 Decky's **Developer → Install Plugin from ZIP**.
 
+## [0.0.6-alpha] - 2026-10-24
+
+### Fixed
+- **Tile corner radius really works now.** Steam registers its own CSS variable called `--r` as an
+  angle, so the plugin's `--r: 25px` was thrown away and every corner came out at 0. The plugin's
+  variables are now `--xbd-r`, `--xbd-a` and `--xbd-f`. Checked in Big Picture: 25 px in the
+  settings gives 25 px tiles.
+- **Power menu** (Sleep / Shut down / Restart) no longer turns red: the selected item uses the
+  accent color (Xbox green), Shut down and Restart included.
+- The selected power menu item no longer pokes out of the right edge of the panel.
+
+### Changed
+- **Power menu looks like the Xbox power options**: one solid dark panel with an accent stripe on
+  top, a bold title above it, roomy rows instead of separate pills, and the selected row filled
+  with the accent color and a white ring.
+
 ## [0.0.5-alpha] - 2026-10-24
 
 ### Added
@@ -67,6 +83,7 @@ Decky's **Developer → Install Plugin from ZIP**.
 First public alpha: Xbox-style Home, LB / RB tabs, My games & apps, game page, Guide-style menus,
 Xbox colors across Steam, English and Portuguese, and a Buy Me a Coffee button.
 
+[0.0.6-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.5-alpha...v0.0.6-alpha
 [0.0.5-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.4-alpha...v0.0.5-alpha
 [0.0.4-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.3-alpha...v0.0.4-alpha
 [0.0.3-alpha]: https://github.com/kromossomom-debug/decky-xbox-dashboard/compare/v0.0.2-alpha...v0.0.3-alpha

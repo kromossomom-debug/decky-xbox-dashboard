@@ -50,9 +50,9 @@ export function useSettings(): Settings {
 export function useRootVars(): CSSProperties {
   const s = useSettings();
   return {
-    "--r": `${s.radius}px`,
-    "--a": accentColor(s.accent),
-    "--f": s.focus === "white" ? "#FFFFFF" : accentColor(s.accent),
+    "--xbd-r": `${s.radius}px`,
+    "--xbd-a": accentColor(s.accent),
+    "--xbd-f": s.focus === "white" ? "#FFFFFF" : accentColor(s.accent),
   } as CSSProperties;
 }
 

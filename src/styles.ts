@@ -5,16 +5,17 @@
  */
 export const XBOX_CSS = `
 .xbd-root {
-  --a: var(--xbd-accent, #107C10);
-  --f: var(--xbd-focus, #FFFFFF);
-  --r: var(--xbd-radius, 6px);
+  /* Not --r / --a / --f: Steam registers --r as an <angle>, which silently turned every radius into 0. */
+  --xbd-a: var(--xbd-accent, #107C10);
+  --xbd-f: var(--xbd-focus, #FFFFFF);
+  --xbd-r: var(--xbd-radius, 6px);
   position: absolute; top: 0; left: 0; width: 100%; height: 100vh;
   overflow: hidden; color: #fff; background: #0b0b0b;
   font-family: "Segoe UI", "Selawik", "Noto Sans", sans-serif;
 }
 .xbd-root * { box-sizing: border-box; }
 .xbd-root:not(.xbd-tab-home) {
-  background: radial-gradient(ellipse at 10% -20%, color-mix(in srgb, var(--a) 30%, #0b0b0b) 0%, #0b0b0b 60%);
+  background: radial-gradient(ellipse at 10% -20%, color-mix(in srgb, var(--xbd-a) 30%, #0b0b0b) 0%, #0b0b0b 60%);
 }
 .xbd-content { position: absolute; inset: 0; }
 .xbd-page { position: absolute; top: calc(46px + 7vh); left: 0; right: 0; bottom: 0; }
@@ -29,7 +30,7 @@ export const XBOX_CSS = `
   border-bottom: 3px solid transparent; text-shadow: 0 1px 4px rgba(0,0,0,0.7);
   transition: color 150ms ease, border-color 150ms ease;
 }
-.xbd-tab-active { color: #fff; border-bottom-color: var(--a); }
+.xbd-tab-active { color: #fff; border-bottom-color: var(--xbd-a); }
 .xbd-bumper {
   padding: 0.2vh 0.9vh; border: 1px solid rgba(255,255,255,0.55); border-radius: 999px;
   font-size: 1.4vh; font-weight: 700; opacity: 0.8;
@@ -64,7 +65,7 @@ export const XBOX_CSS = `
 }
 .xbd-avatar {
   width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background: #333;
-  box-shadow: 0 0 0 2px var(--a);
+  box-shadow: 0 0 0 2px var(--xbd-a);
 }
 .xbd-gamertag { font-size: 16px; font-weight: 600; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
@@ -88,7 +89,7 @@ export const XBOX_CSS = `
 
 /* ---------- tiles ---------- */
 .xbd-tile {
-  position: relative; flex: 0 0 auto; border-radius: var(--r); background: #1e1e1e;
+  position: relative; flex: 0 0 auto; border-radius: var(--xbd-r); background: #1e1e1e;
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
 .xbd-tile-big { width: 30vh; height: 30vh; }
@@ -103,12 +104,12 @@ export const XBOX_CSS = `
 }
 .xbd-tile.xbd-focused {
   z-index: 1; transform: scale(1.05);
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--f), 0 6px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--xbd-f), 0 6px 16px rgba(0,0,0,0.5);
 }
 .xbd-tile-name {
   position: absolute; left: 0; right: 0; bottom: 0; padding: 2.6vh 1vh 0.9vh;
   font-size: 1.8vh; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  border-radius: 0 0 var(--r) var(--r); background: linear-gradient(transparent, rgba(0,0,0,0.88));
+  border-radius: 0 0 var(--xbd-r) var(--xbd-r); background: linear-gradient(transparent, rgba(0,0,0,0.88));
   opacity: 0; transition: opacity 150ms ease;
 }
 .xbd-tile.xbd-focused .xbd-tile-name { opacity: 1; }
@@ -116,13 +117,13 @@ export const XBOX_CSS = `
 .xbd-not-installed .xbd-cover { opacity: 0.6; }
 .xbd-badge {
   position: absolute; top: 0.8vh; left: 0.8vh; padding: 0.3vh 0.8vh; border-radius: 3px;
-  background: var(--a); font-size: 1.5vh; font-weight: 600;
+  background: var(--xbd-a); font-size: 1.5vh; font-weight: 600;
 }
 .xbd-action {
   position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between;
   padding: 1.6vh; background: rgba(44,44,44,0.94);
 }
-.xbd-tile-accent .xbd-action { background: var(--a); }
+.xbd-tile-accent .xbd-action { background: var(--xbd-a); }
 .xbd-tile-action.xbd-focused .xbd-action { background: rgba(74,74,74,0.95); }
 .xbd-action-icon { font-size: 5vh; line-height: 1; }
 .xbd-action-icon svg { display: block; }
@@ -136,10 +137,10 @@ export const XBOX_CSS = `
 }
 .xbd-side-item {
   flex: 0 0 auto; display: flex; align-items: center; gap: 1.4vh; padding: 1.1vh 1.4vh;
-  border-radius: var(--r); font-size: 2vh; color: rgba(255,255,255,0.8);
+  border-radius: var(--xbd-r); font-size: 2vh; color: rgba(255,255,255,0.8);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.xbd-side-item.xbd-active { color: #fff; background: rgba(255,255,255,0.08); box-shadow: inset 3px 0 0 var(--a); }
+.xbd-side-item.xbd-active { color: #fff; background: rgba(255,255,255,0.08); box-shadow: inset 3px 0 0 var(--xbd-a); }
 .xbd-side-item.xbd-focused { background: #fff; color: #000; }
 .xbd-side-icon { display: flex; font-size: 2.6vh; }
 .xbd-side-sep { flex: 0 0 auto; height: 1px; margin: 1vh 0; background: rgba(255,255,255,0.12); }
@@ -159,14 +160,14 @@ export const XBOX_CSS = `
   padding: 1.6vh 4vw 30vh; overflow: hidden;
 }
 .xbd-card {
-  height: 19vh; padding: 2vh; border-radius: var(--r);
+  height: 19vh; padding: 2vh; border-radius: var(--xbd-r);
   display: flex; flex-direction: column; justify-content: space-between;
   background: rgba(44,44,44,0.9); transition: transform 150ms ease, box-shadow 150ms ease;
 }
-.xbd-card-accent { background: var(--a); }
+.xbd-card-accent { background: var(--xbd-a); }
 .xbd-card.xbd-focused {
   transform: scale(1.03);
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--f), 0 6px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--xbd-f), 0 6px 16px rgba(0,0,0,0.5);
 }
 .xbd-card-icon { font-size: 5vh; line-height: 1; }
 .xbd-card-icon svg { display: block; }
@@ -194,47 +195,47 @@ export const XBOX_CSS = `
   background: rgba(255,255,255,0.12); font-size: 1.7vh; font-weight: 600;
 }
 .xbd-gp-badge svg { font-size: 2vh; }
-.xbd-gp-badge-accent { background: var(--a); }
+.xbd-gp-badge-accent { background: var(--xbd-a); }
 .xbd-gp-deck-verified svg { color: #6cd25c; }
 .xbd-gp-deck-playable svg { color: #ffc82c; }
 .xbd-gp-deck-unsupported svg { color: #9a9a9a; }
 
 .xbd-gp-actions { display: flex; gap: 1.6vh; margin-top: 3vh; }
 .xbd-gp-play, .xbd-gp-more {
-  height: 7vh; border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+  height: 7vh; border-radius: var(--xbd-r); display: flex; align-items: center; justify-content: center;
   transition: transform 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
 }
 .xbd-gp-play {
-  min-width: 32vh; padding: 0 3vh; gap: 1.2vh; background: var(--a);
+  min-width: 32vh; padding: 0 3vh; gap: 1.2vh; background: var(--xbd-a);
   font-size: 2.6vh; font-weight: 700;
 }
 .xbd-gp-play svg { font-size: 3.6vh; }
 .xbd-gp-more { width: 7vh; background: rgba(255,255,255,0.14); font-size: 3vh; }
 .xbd-gp-play.xbd-focused, .xbd-gp-more.xbd-focused {
   background: #fff; color: #000; transform: scale(1.04);
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--f), 0 6px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--xbd-f), 0 6px 16px rgba(0,0,0,0.5);
 }
 
 .xbd-gp-cards { margin: 1.4vh -0.8vh 0; padding: 1.6vh 0.8vh; gap: 1.6vh; align-items: stretch; }
 .xbd-gp-card {
   position: relative; flex: 0 0 auto; width: 25vh; height: 15vh; padding: 1.6vh;
-  display: flex; flex-direction: column; border-radius: var(--r);
+  display: flex; flex-direction: column; border-radius: var(--xbd-r);
   background: rgba(32,32,32,0.88); transition: transform 150ms ease, box-shadow 150ms ease;
 }
 .xbd-gp-card.xbd-focused {
   transform: scale(1.04);
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--f), 0 6px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--xbd-f), 0 6px 16px rgba(0,0,0,0.5);
 }
 .xbd-gp-card-icon { font-size: 3.6vh; line-height: 1; }
 .xbd-gp-card-icon svg { display: block; }
 .xbd-gp-card-title { margin-top: auto; font-size: 2vh; font-weight: 600; }
 .xbd-gp-card-desc { margin-top: 0.3vh; font-size: 1.6vh; opacity: 0.75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .xbd-gp-progress { height: 0.6vh; margin-top: 0.8vh; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: hidden; }
-.xbd-gp-progress > div { height: 100%; background: var(--a); }
+.xbd-gp-progress > div { height: 100%; background: var(--xbd-a); }
 
 .xbd-gp-about {
   position: absolute; top: 56px; right: 5vw; z-index: 2; width: 30vw; max-height: 46vh; padding: 2.4vh;
-  border-radius: calc(var(--r) * 2); background: rgba(12,12,12,0.74); overflow: hidden;
+  border-radius: calc(var(--xbd-r) * 2); background: rgba(12,12,12,0.74); overflow: hidden;
   animation: xbd-fade 400ms ease both;
 }
 .xbd-gp-about-title { font-size: 2.2vh; font-weight: 700; }
@@ -244,9 +245,9 @@ export const XBOX_CSS = `
 }
 .xbd-gp-about-meta { margin-top: 1.2vh; font-size: 1.7vh; opacity: 0.8; }
 
-.xbd-gp-pinned { background: var(--a); }
+.xbd-gp-pinned { background: var(--xbd-a); }
 .xbd-gp-hltb {
-  margin-top: 1.6vh; padding: 1.4vh 1.8vh; max-width: 46vh; border-radius: var(--r);
+  margin-top: 1.6vh; padding: 1.4vh 1.8vh; max-width: 46vh; border-radius: var(--xbd-r);
   background: rgba(12,12,12,0.62);
 }
 .xbd-gp-hltb-stats { display: flex; align-items: flex-end; gap: 2.6vh; }
@@ -258,7 +259,7 @@ export const XBOX_CSS = `
 
 /* ---------- Customize Home ---------- */
 .xbd-customize {
-  background: radial-gradient(ellipse at 10% -20%, color-mix(in srgb, var(--a) 30%, #0b0b0b) 0%, #0b0b0b 60%);
+  background: radial-gradient(ellipse at 10% -20%, color-mix(in srgb, var(--xbd-a) 30%, #0b0b0b) 0%, #0b0b0b 60%);
 }
 .xbd-cz-head { position: absolute; top: 48px; left: 4vw; right: 4vw; }
 .xbd-cz-title { font-size: 3.4vh; font-weight: 600; }
@@ -270,6 +271,6 @@ export const XBOX_CSS = `
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   font-size: 5vh; pointer-events: none; text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
-.xbd-cz-pin { align-items: flex-start; justify-content: flex-end; padding: 1vh; font-size: 2.6vh; color: var(--a); }
+.xbd-cz-pin { align-items: flex-start; justify-content: flex-end; padding: 1vh; font-size: 2.6vh; color: var(--xbd-a); }
 .xbd-badge-muted { background: rgba(0,0,0,0.75); }
 `;

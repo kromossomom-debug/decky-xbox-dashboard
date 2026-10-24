@@ -257,36 +257,65 @@ ${dialog.Field}.gpfocus {
   border-radius: var(--xbd-radius);
 }
 
-/* Power menu and every "…" menu: dark Guide panel, accent stripe, white focus, red for destructive. */
-${ctx.contextMenu} {
-  background: linear-gradient(180deg, rgba(30,30,30,0.98), rgba(16,16,16,0.98)) !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-  border-radius: calc(var(--xbd-radius) * 2) !important;
-  box-shadow: 0 18px 50px rgba(0,0,0,0.65) !important;
+/* Power menu and every "…" menu, like the Xbox power options: solid dark panel with an accent
+   stripe, roomy white items, and the selected one filled with the accent (green on Xbox) and a
+   white ring. Shut down / Restart stay white: Xbox doesn't paint them red. */
+${ctx.contextMenu}, ${ctx.BasicContextMenuContainer} {
+  min-width: 300px;
+  padding: 0 0 8px !important;
+  background: #1c1c1c !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: min(calc(var(--xbd-radius) * 1.5), 16px) !important;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.75) !important;
   overflow: hidden;
+}
+/* The power menu's list gets the panel; its title sits above it, Xbox-style. */
+${ctx.BasicContextMenuContainer} {
+  /* This container lays its children out in a row, so the stripe is a border, not a ::before. */
+  border-top: 4px solid var(--xbd-accent) !important;
+  padding-top: 8px !important;
+}
+${ctx.BasicContextMenuHeader} {
+  color: #fff !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  margin-bottom: 10px !important;
 }
 ${ctx.contextMenu}::before {
   content: "";
   display: block;
-  height: 3px;
+  height: 4px;
+  margin-bottom: 8px;
   background: var(--xbd-accent);
 }
 ${ctx.contextMenuItem} {
-  border-radius: var(--xbd-radius) !important;
-  margin: 2px 8px !important;
-  transition: background-color 120ms ease, transform 140ms ease;
-}
-${ctx.contextMenuItem}:is(${ctx.Focused}, .gpfocus) {
-  background: #fff !important;
-  color: #000 !important;
-  transform: translateX(3px);
+  min-height: 44px;
+  display: flex !important;
+  align-items: center;
+  padding: 10px 18px !important;
+  margin: 2px 10px !important;
+  /* 100% wide plus the side margins would poke out of the panel. */
+  width: calc(100% - 20px) !important;
+  box-sizing: border-box !important;
+  border-radius: min(var(--xbd-radius), 10px) !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  transition: background-color 120ms ease;
 }
 ${ctx.contextMenuItem}${ctx.Destructive} {
-  color: #ff7a7a !important;
-}
-${ctx.contextMenuItem}${ctx.Destructive}:is(${ctx.Focused}, .gpfocus) {
-  background: #e81123 !important;
   color: #fff !important;
+}
+${ctx.contextMenuItem}:is(${ctx.Focused}, .gpfocus) {
+  background: var(--xbd-accent) !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.9);
+}
+${ctx.contextMenuItem}:is(${ctx.Focused}, .gpfocus) * {
+  color: #fff !important;
+  fill: #fff !important;
 }
 ${ctx.MenuSectionHeader} {
   color: var(--xbd-accent) !important;
@@ -296,6 +325,7 @@ ${ctx.MenuSectionHeader} {
 }
 ${ctx.ContextMenuSeparator} {
   background: rgba(255,255,255,0.1) !important;
+  margin: 6px 16px !important;
 }`);
   }
 
