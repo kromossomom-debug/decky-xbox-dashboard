@@ -1,4 +1,4 @@
-import { Navigation, Router } from "@decky/ui";
+import { Navigation, Router, findModuleChild } from "@decky/ui";
 
 import { t } from "./i18n";
 
@@ -150,9 +150,37 @@ export function appById(appid: number): App | undefined {
   }
 }
 
+/** Steam's id for this device when installing (other ids are remote PCs). */
+const LOCAL_CLIENT_ID = "0";
+
+let installStore: any;
+/** The store behind Steam's own Install button: it opens the "Install" dialog when the wizard starts. */
+function steamInstallStore(): any {
+  if (installStore === undefined) {
+    try {
+      installStore =
+        findModuleChild((m: any) => {
+          if (typeof m !== "object" || !m) return undefined;
+          for (const k in m) {
+            const v = m[k];
+            if (v && typeof v === "object" && "m_unAppIDExpectedInstall" in v && typeof v.InstallApp === "function") return v;
+          }
+          return undefined;
+        }) ?? null;
+    } catch {
+      installStore = null;
+    }
+  }
+  return installStore;
+}
+
+/** Opens Steam's "Install" dialog (drive, size, Deck compatibility) for a game in the library. */
 export function installApp(app: App) {
   try {
-    SteamClient.Installs.OpenInstallWizard([app.appid]);
+    // Without the client id Steam ignores the request, so nothing would happen.
+    const store = steamInstallStore();
+    if (store) store.InstallApp(app.appid, LOCAL_CLIENT_ID);
+    else SteamClient.Installs.OpenInstallWizard([app.appid], LOCAL_CLIENT_ID);
   } catch (e) {
     console.error("[xbox-dashboard] install wizard failed", e);
     openSteamPage(app);

@@ -156,7 +156,7 @@ function GameHub({ app }: { app: App }) {
         flow-children="column"
         onCancelButton={() => Navigation.NavigateBack()}
         onButtonDown={(e: GamepadEvent) => {
-          if (e.detail?.button === GamepadButton.SELECT) openGameMenu(app, e.target ?? undefined);
+          if (e.detail?.button === GamepadButton.SELECT) openGameMenu(app, e.target ?? undefined, true);
         }}
         actionDescriptionMap={{ [GamepadButton.SELECT]: t.options }}
       >

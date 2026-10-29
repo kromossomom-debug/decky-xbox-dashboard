@@ -3,6 +3,15 @@
 All notable changes to Xbox Dashboard. Versions are alphas: install the ZIP from each release with
 Decky's **Developer → Install Plugin from ZIP**.
 
+## [0.0.9-alpha] - 2026-10-28
+
+### Fixed
+- **Install does nothing.** Install (in the SELECT menu and on the game page) now opens Steam's own
+  “Install” dialog, where you pick the drive and the download starts. The plugin was asking Steam
+  without saying which device to install on, so Steam ignored it.
+- **Game info does nothing.** On the game page the SELECT menu no longer lists “Game info” (you are
+  already on it), and every menu action now runs after the menu has closed.
+
 ## [0.0.8-alpha] - 2026-10-24
 
 ### Fixed
