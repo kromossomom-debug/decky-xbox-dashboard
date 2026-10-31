@@ -216,7 +216,8 @@ export const XBOX_CSS = `
   box-shadow: 0 0 0 2px rgba(0,0,0,0.85), 0 0 0 5px var(--xbd-f), 0 6px 16px rgba(0,0,0,0.5);
 }
 
-.xbd-gp-cards { margin: 1.4vh -0.8vh 0; padding: 1.6vh 0.8vh; gap: 1.6vh; align-items: stretch; }
+/* The row clips its overflow, so the side padding must hold the focus ring (5px) plus the 4% scale. */
+.xbd-gp-cards { margin: 1.4vh -1.6vh 0; padding: 1.6vh 1.6vh; gap: 1.6vh; align-items: stretch; }
 .xbd-gp-card {
   position: relative; flex: 0 0 auto; width: 25vh; height: 15vh; padding: 1.6vh;
   display: flex; flex-direction: column; border-radius: var(--xbd-r);
@@ -247,13 +248,13 @@ export const XBOX_CSS = `
 
 .xbd-gp-pinned { background: var(--xbd-a); }
 .xbd-gp-hltb {
-  margin-top: 1.6vh; padding: 1.4vh 1.8vh; max-width: 46vh; border-radius: var(--xbd-r);
+  margin-top: 1.6vh; padding: 1.8vh 2.2vh; max-width: 46vh; border-radius: var(--xbd-r);
   background: rgba(12,12,12,0.62);
 }
-.xbd-gp-hltb-stats { display: flex; align-items: flex-end; gap: 2.6vh; }
+.xbd-gp-hltb-stats { display: flex; align-items: flex-end; gap: 3.4vh; }
 .xbd-gp-hltb-value { font-size: 2.6vh; font-weight: 700; line-height: 1.1; }
 .xbd-gp-hltb-label { font-size: 1.5vh; opacity: 0.75; white-space: nowrap; }
-.xbd-gp-hltb-source { margin-left: auto; font-size: 1.3vh; opacity: 0.5; align-self: flex-start; }
+.xbd-gp-hltb-source { margin-bottom: 1.4vh; font-size: 1.4vh; letter-spacing: 0.04em; opacity: 0.55; }
 .xbd-gp-hltb .xbd-gp-progress { margin-top: 1.2vh; }
 .xbd-gp-hltb-note { margin-top: 0.6vh; font-size: 1.5vh; opacity: 0.8; }
 
