@@ -89,6 +89,7 @@ function HltbPanel({ times, playedMinutes }: { times: HltbTimes; playedMinutes: 
   const pct = times.main ? Math.round(((playedMinutes * 60) / times.main) * 100) : 0;
   return (
     <div className="xbd-gp-hltb">
+      <div className="xbd-gp-hltb-source">{t.hltbSource}</div>
       <div className="xbd-gp-hltb-stats">
         {stats.map((s) => (
           <div key={s.label} className="xbd-gp-hltb-stat">
@@ -96,7 +97,6 @@ function HltbPanel({ times, playedMinutes }: { times: HltbTimes; playedMinutes: 
             <div className="xbd-gp-hltb-label">{s.label}</div>
           </div>
         ))}
-        <div className="xbd-gp-hltb-source">{t.hltbSource}</div>
       </div>
       {pct > 0 && (
         <>
